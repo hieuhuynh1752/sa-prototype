@@ -8,260 +8,153 @@ app.get("/", (req, res) => {
   res.status(200).send(message);
 });
 
-app.get("/preferences-manager/preferences/:id", (req, res) => {
+app.get("/ai-module/people-profiling/movement-recognizer/:id", (req, res) => {
   const profile_id = req.params.id;
 
-  let preferences;
+  let recognizers;
 
   if (profile_id == 12) {
-    preferences = {
-      preferences: {
-        moods: {
-          happy: {
-            laying: {
-              light_intensity: "bright",
-              temperature: "warm",
-              sound_volume: "moderate",
-              humidity: "comfortable",
-            },
-            standing: {
-              light_intensity: "bright",
-              temperature: "neutral",
-              sound_volume: "moderate",
-              humidity: "normal",
-            },
-            studying: {
-              light_intensity: "bright",
-              temperature: "cool",
-              sound_volume: "moderate",
-              humidity: "normal",
-            },
-            eating: {
-              light_intensity: "bright",
-              temperature: "warm",
-              sound_volume: "moderate",
-              humidity: "normal",
-            },
+    recognizers = {
+      movementPatterns: {
+        personID: "person_x1",
+        movements: [
+          {
+            time: "7:00 AM",
+            location: "Entrance",
+            activity: "Entering Home",
           },
-          sad: {
-            laying: {
-              light_intensity: "dim",
-              temperature: "comfortable",
-              sound_volume: "low",
-              humidity: "normal",
-            },
-            standing: {
-              light_intensity: "dim",
-              temperature: "neutral",
-              sound_volume: "low",
-              humidity: "normal",
-            },
-            studying: {
-              light_intensity: "soft",
-              temperature: "cozy",
-              sound_volume: "low",
-              humidity: "normal",
-            },
-            eating: {
-              light_intensity: "soft",
-              temperature: "cozy",
-              sound_volume: "low",
-              humidity: "normal",
-            },
+          {
+            time: "7:05 AM",
+            location: "Kitchen",
+            activity: "Preparing Breakfast",
           },
-          excited: {
-            laying: {
-              light_intensity: "vibrant",
-              temperature: "cool",
-              sound_volume: "high",
-              humidity: "refreshing",
-            },
-            standing: {
-              light_intensity: "vibrant",
-              temperature: "cool",
-              sound_volume: "high",
-              humidity: "refreshing",
-            },
-            studying: {
-              light_intensity: "vibrant",
-              temperature: "cool",
-              sound_volume: "high",
-              humidity: "refreshing",
-            },
-            eating: {
-              light_intensity: "vibrant",
-              temperature: "cool",
-              sound_volume: "high",
-              humidity: "refreshing",
-            },
+          {
+            time: "7:30 AM",
+            location: "Living Room",
+            activity: "Eating Breakfast",
           },
-        },
+          {
+            time: "8:00 AM",
+            location: "Entrance",
+            activity: "Leaving Home",
+          },
+          {
+            time: "6:00 PM",
+            location: "Entrance",
+            activity: "Entering Home",
+          },
+          {
+            time: "6:15 PM",
+            location: "Kitchen",
+            activity: "Cooking Dinner",
+          },
+          {
+            time: "7:00 PM",
+            location: "Living Room",
+            activity: "Dining",
+          },
+          {
+            time: "8:00 PM",
+            location: "Living Room",
+            activity: "Watching TV",
+          },
+          {
+            time: "10:00 PM",
+            location: "Kitchen",
+            activity: "Cleaning Up",
+          },
+          {
+            time: "10:30 PM",
+            location: "Entrance",
+            activity: "Checking Doors Before Bed",
+          },
+        ],
       },
     };
   } else if (profile_id == 45) {
-    preferences = {
-      moods: {
-        happy: {
-          laying: {
-            light_intensity: "dim",
-            temperature: "warm",
-            sound_volume: "low",
-            humidity: "normal",
+    recognizers = {
+      movementPatterns: {
+        personID: "person_x2",
+        movements: [
+          {
+            time: "6:30 AM",
+            location: "Entrance",
+            activity: "Entering Home",
           },
-          standing: {
-            light_intensity: "dim",
-            temperature: "neutral",
-            sound_volume: "low",
-            humidity: "normal",
+          {
+            time: "6:35 AM",
+            location: "Kitchen",
+            activity: "Making Coffee",
           },
-          studying: {
-            light_intensity: "dim",
-            temperature: "cool",
-            sound_volume: "low",
-            humidity: "normal",
+          {
+            time: "7:00 AM",
+            location: "Living Room",
+            activity: "Morning Exercise",
           },
-          eating: {
-            light_intensity: "dim",
-            temperature: "warm",
-            sound_volume: "low",
-            humidity: "normal",
+          {
+            time: "12:00 PM",
+            location: "Kitchen",
+            activity: "Lunch Preparation",
           },
-        },
-        sad: {
-          laying: {
-            light_intensity: "soft",
-            temperature: "comfortable",
-            sound_volume: "moderate",
-            humidity: "normal",
+          {
+            time: "6:30 PM",
+            location: "Living Room",
+            activity: "Relaxing",
           },
-          standing: {
-            light_intensity: "soft",
-            temperature: "neutral",
-            sound_volume: "moderate",
-            humidity: "normal",
+          {
+            time: "9:00 PM",
+            location: "Kitchen",
+            activity: "Snacking",
           },
-          studying: {
-            light_intensity: "soft",
-            temperature: "cozy",
-            sound_volume: "moderate",
-            humidity: "normal",
+          {
+            time: "9:30 PM",
+            location: "Entrance",
+            activity: "Stepping Out",
           },
-          eating: {
-            light_intensity: "soft",
-            temperature: "cozy",
-            sound_volume: "moderate",
-            humidity: "normal",
-          },
-        },
-        excited: {
-          laying: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          standing: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          studying: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          eating: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-        },
+        ],
       },
     };
   } else if (profile_id == 76) {
-    preferences = {
-      moods: {
-        happy: {
-          laying: {
-            light_intensity: "soft",
-            temperature: "warm",
-            sound_volume: "moderate",
-            humidity: "comfortable",
+    recognizers = {
+      movementPatterns: {
+        personID: "person_x3",
+        movements: [
+          {
+            time: "8:00 AM",
+            location: "Entrance",
+            activity: "Leaving Home",
           },
-          standing: {
-            light_intensity: "bright",
-            temperature: "neutral",
-            sound_volume: "moderate",
-            humidity: "normal",
+          {
+            time: "12:30 PM",
+            location: "Kitchen",
+            activity: "Making Lunch",
           },
-          studying: {
-            light_intensity: "bright",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "normal",
+          {
+            time: "1:00 PM",
+            location: "Living Room",
+            activity: "Working from Home",
           },
-          eating: {
-            light_intensity: "vibrant",
-            temperature: "warm",
-            sound_volume: "moderate",
-            humidity: "normal",
+          {
+            time: "5:00 PM",
+            location: "Living Room",
+            activity: "Video Call",
           },
-        },
-        sad: {
-          laying: {
-            light_intensity: "dim",
-            temperature: "comfortable",
-            sound_volume: "low",
-            humidity: "normal",
+          {
+            time: "7:00 PM",
+            location: "Kitchen",
+            activity: "Dinner Preparation",
           },
-          standing: {
-            light_intensity: "dim",
-            temperature: "neutral",
-            sound_volume: "low",
-            humidity: "normal",
+          {
+            time: "10:00 PM",
+            location: "Living Room",
+            activity: "Watching a Movie",
           },
-          studying: {
-            light_intensity: "soft",
-            temperature: "cozy",
-            sound_volume: "low",
-            humidity: "normal",
+          {
+            time: "11:00 PM",
+            location: "Entrance",
+            activity: "Checking Locks",
           },
-          eating: {
-            light_intensity: "soft",
-            temperature: "cozy",
-            sound_volume: "low",
-            humidity: "normal",
-          },
-        },
-        excited: {
-          laying: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          standing: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          studying: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          eating: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-        },
+        ],
       },
     };
   } else {
@@ -269,7 +162,7 @@ app.get("/preferences-manager/preferences/:id", (req, res) => {
     reject(err);
   }
 
-  res.status(200).send(preferences);
+  res.status(200).send(recognizers);
 });
 
 exports.appfunc = app;
