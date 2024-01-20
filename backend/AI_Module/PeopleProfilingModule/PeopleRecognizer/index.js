@@ -3,273 +3,160 @@ const express = require("express");
 const app = express();
 
 app.get("/", (req, res) => {
-  let message = req.query.message || "standard-messageee";
+    let message = req.query.message || "standard-messageee";
 
-  res.status(200).send(message);
+    res.status(200).send(message);
 });
 
-app.get("/preferences-manager/preferences/:id", (req, res) => {
-  const profile_id = req.params.id;
+app.get("/ai-module/people-profiling/people-recognizer/:id", (req, res) => {
+    const profile_id = req.params.id;
 
-  let preferences;
+    let recognizers;
 
-  if (profile_id == 12) {
-    preferences = {
-      preferences: {
-        moods: {
-          happy: {
-            laying: {
-              light_intensity: "bright",
-              temperature: "warm",
-              sound_volume: "moderate",
-              humidity: "comfortable",
-            },
-            standing: {
-              light_intensity: "bright",
-              temperature: "neutral",
-              sound_volume: "moderate",
-              humidity: "normal",
-            },
-            studying: {
-              light_intensity: "bright",
-              temperature: "cool",
-              sound_volume: "moderate",
-              humidity: "normal",
-            },
-            eating: {
-              light_intensity: "bright",
-              temperature: "warm",
-              sound_volume: "moderate",
-              humidity: "normal",
-            },
-          },
-          sad: {
-            laying: {
-              light_intensity: "dim",
-              temperature: "comfortable",
-              sound_volume: "low",
-              humidity: "normal",
-            },
-            standing: {
-              light_intensity: "dim",
-              temperature: "neutral",
-              sound_volume: "low",
-              humidity: "normal",
-            },
-            studying: {
-              light_intensity: "soft",
-              temperature: "cozy",
-              sound_volume: "low",
-              humidity: "normal",
-            },
-            eating: {
-              light_intensity: "soft",
-              temperature: "cozy",
-              sound_volume: "low",
-              humidity: "normal",
-            },
-          },
-          excited: {
-            laying: {
-              light_intensity: "vibrant",
-              temperature: "cool",
-              sound_volume: "high",
-              humidity: "refreshing",
-            },
-            standing: {
-              light_intensity: "vibrant",
-              temperature: "cool",
-              sound_volume: "high",
-              humidity: "refreshing",
-            },
-            studying: {
-              light_intensity: "vibrant",
-              temperature: "cool",
-              sound_volume: "high",
-              humidity: "refreshing",
-            },
-            eating: {
-              light_intensity: "vibrant",
-              temperature: "cool",
-              sound_volume: "high",
-              humidity: "refreshing",
-            },
-          },
-        },
-      },
-    };
-  } else if (profile_id == 45) {
-    preferences = {
-      moods: {
-        happy: {
-          laying: {
-            light_intensity: "dim",
-            temperature: "warm",
-            sound_volume: "low",
-            humidity: "normal",
-          },
-          standing: {
-            light_intensity: "dim",
-            temperature: "neutral",
-            sound_volume: "low",
-            humidity: "normal",
-          },
-          studying: {
-            light_intensity: "dim",
-            temperature: "cool",
-            sound_volume: "low",
-            humidity: "normal",
-          },
-          eating: {
-            light_intensity: "dim",
-            temperature: "warm",
-            sound_volume: "low",
-            humidity: "normal",
-          },
-        },
-        sad: {
-          laying: {
-            light_intensity: "soft",
-            temperature: "comfortable",
-            sound_volume: "moderate",
-            humidity: "normal",
-          },
-          standing: {
-            light_intensity: "soft",
-            temperature: "neutral",
-            sound_volume: "moderate",
-            humidity: "normal",
-          },
-          studying: {
-            light_intensity: "soft",
-            temperature: "cozy",
-            sound_volume: "moderate",
-            humidity: "normal",
-          },
-          eating: {
-            light_intensity: "soft",
-            temperature: "cozy",
-            sound_volume: "moderate",
-            humidity: "normal",
-          },
-        },
-        excited: {
-          laying: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          standing: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          studying: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          eating: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-        },
-      },
-    };
-  } else if (profile_id == 76) {
-    preferences = {
-      moods: {
-        happy: {
-          laying: {
-            light_intensity: "soft",
-            temperature: "warm",
-            sound_volume: "moderate",
-            humidity: "comfortable",
-          },
-          standing: {
-            light_intensity: "bright",
-            temperature: "neutral",
-            sound_volume: "moderate",
-            humidity: "normal",
-          },
-          studying: {
-            light_intensity: "bright",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "normal",
-          },
-          eating: {
-            light_intensity: "vibrant",
-            temperature: "warm",
-            sound_volume: "moderate",
-            humidity: "normal",
-          },
-        },
-        sad: {
-          laying: {
-            light_intensity: "dim",
-            temperature: "comfortable",
-            sound_volume: "low",
-            humidity: "normal",
-          },
-          standing: {
-            light_intensity: "dim",
-            temperature: "neutral",
-            sound_volume: "low",
-            humidity: "normal",
-          },
-          studying: {
-            light_intensity: "soft",
-            temperature: "cozy",
-            sound_volume: "low",
-            humidity: "normal",
-          },
-          eating: {
-            light_intensity: "soft",
-            temperature: "cozy",
-            sound_volume: "low",
-            humidity: "normal",
-          },
-        },
-        excited: {
-          laying: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          standing: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          studying: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-          eating: {
-            light_intensity: "vibrant",
-            temperature: "cool",
-            sound_volume: "high",
-            humidity: "refreshing",
-          },
-        },
-      },
-    };
-  } else {
-    console.error("Profile with id ", profile_id, " was not found.");
-    reject(err);
-  }
+    if (profile_id == 12) {
+        recognizers = {
+            "recognitions": {
+                "data": [{
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_1"
+                    },
+                    {
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_2"
+                    },
+                    {
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_3"
+                    },
+                    {
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_4"
+                    },
+                    {
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_5"
+                    },
+                    {
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_6"
+                    },
+                    {
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_7"
+                    },
+                    {
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_8"
+                    },
+                    {
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_9"
+                    },
+                    {
+                        "personID": "person_x1",
+                        "imageReference": "link_to_image_10"
+                    }
+                ]
+            }
+        };
+    } else if (profile_id == 45) {
+        recognizers = {
+            "recognitions": {
+                "data": [{
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_1"
+                    },
+                    {
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_2"
+                    },
+                    {
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_3"
+                    },
+                    {
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_4"
+                    },
+                    {
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_5"
+                    },
+                    {
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_6"
+                    },
+                    {
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_7"
+                    },
+                    {
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_8"
+                    },
+                    {
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_9"
+                    },
+                    {
+                        "personID": "person_x2",
+                        "imageReference": "link_to_image_10"
+                    }
+                ]
+            }
+        };
+    } else if (profile_id == 76) {
+        recognizers = {
+            "recognitions": {
+                "data": [{
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_1"
+                    },
+                    {
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_2"
+                    },
+                    {
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_3"
+                    },
+                    {
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_4"
+                    },
+                    {
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_5"
+                    },
+                    {
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_6"
+                    },
+                    {
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_7"
+                    },
+                    {
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_8"
+                    },
+                    {
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_9"
+                    },
+                    {
+                        "personID": "person_x3",
+                        "imageReference": "link_to_image_10"
+                    }
+                ]
+            }
+        };
+    } else {
+        console.error("Profile with id ", profile_id, " was not found.");
+        reject(err);
+    }
 
-  res.status(200).send(preferences);
+    res.status(200).send(recognizers);
 });
 
 exports.appfunc = app;

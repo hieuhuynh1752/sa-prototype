@@ -8,7 +8,7 @@ app.get("/", (req, res) => {
     res.status(200).send(message);
 });
 
-app.get("/behavior-learner/behavior/:id", (req, res) => {
+app.get("/ai_module/behavior-learner/:id", (req, res) => {
     const profile_id = req.params.id;
 
     let behaviors;
