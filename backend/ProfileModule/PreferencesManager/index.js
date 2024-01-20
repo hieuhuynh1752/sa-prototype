@@ -8,80 +8,268 @@ app.get("/", (req, res) => {
   res.status(200).send(message);
 });
 
-app.get("/hello", (req, res) => {
-  res.status(200).send("hello");
-});
+app.get("/preferences-manager/preferences/:id", (req, res) => {
+  const profile_id = req.params.id;
 
-app.get("/db", async (req, res) => {
-  const query = "SELECT * FROM tickets";
-  console.log("I am here");
+  let preferences;
 
-  pool.query(query, [], (error, results) => {
-    if (error) {
-      console.log(error);
-      res.send(error);
-    } else {
-      console.log(results);
-      if (!results) {
-        res.status(404).send("Not found");
-      } else {
-        res.json(results);
-      }
-    }
-  });
-});
+  if (profile_id == 12) {
+    preferences = {
+      preferences: {
+        moods: {
+          happy: {
+            laying: {
+              light_intensity: "bright",
+              temperature: "warm",
+              sound_volume: "moderate",
+              humidity: "comfortable",
+            },
+            standing: {
+              light_intensity: "bright",
+              temperature: "neutral",
+              sound_volume: "moderate",
+              humidity: "normal",
+            },
+            studying: {
+              light_intensity: "bright",
+              temperature: "cool",
+              sound_volume: "moderate",
+              humidity: "normal",
+            },
+            eating: {
+              light_intensity: "bright",
+              temperature: "warm",
+              sound_volume: "moderate",
+              humidity: "normal",
+            },
+          },
+          sad: {
+            laying: {
+              light_intensity: "dim",
+              temperature: "comfortable",
+              sound_volume: "low",
+              humidity: "normal",
+            },
+            standing: {
+              light_intensity: "dim",
+              temperature: "neutral",
+              sound_volume: "low",
+              humidity: "normal",
+            },
+            studying: {
+              light_intensity: "soft",
+              temperature: "cozy",
+              sound_volume: "low",
+              humidity: "normal",
+            },
+            eating: {
+              light_intensity: "soft",
+              temperature: "cozy",
+              sound_volume: "low",
+              humidity: "normal",
+            },
+          },
+          excited: {
+            laying: {
+              light_intensity: "vibrant",
+              temperature: "cool",
+              sound_volume: "high",
+              humidity: "refreshing",
+            },
+            standing: {
+              light_intensity: "vibrant",
+              temperature: "cool",
+              sound_volume: "high",
+              humidity: "refreshing",
+            },
+            studying: {
+              light_intensity: "vibrant",
+              temperature: "cool",
+              sound_volume: "high",
+              humidity: "refreshing",
+            },
+            eating: {
+              light_intensity: "vibrant",
+              temperature: "cool",
+              sound_volume: "high",
+              humidity: "refreshing",
+            },
+          },
+        },
+      },
+    };
+  } else if (profile_id == 45) {
+    preferences = {
+      moods: {
+        happy: {
+          laying: {
+            light_intensity: "dim",
+            temperature: "warm",
+            sound_volume: "low",
+            humidity: "normal",
+          },
+          standing: {
+            light_intensity: "dim",
+            temperature: "neutral",
+            sound_volume: "low",
+            humidity: "normal",
+          },
+          studying: {
+            light_intensity: "dim",
+            temperature: "cool",
+            sound_volume: "low",
+            humidity: "normal",
+          },
+          eating: {
+            light_intensity: "dim",
+            temperature: "warm",
+            sound_volume: "low",
+            humidity: "normal",
+          },
+        },
+        sad: {
+          laying: {
+            light_intensity: "soft",
+            temperature: "comfortable",
+            sound_volume: "moderate",
+            humidity: "normal",
+          },
+          standing: {
+            light_intensity: "soft",
+            temperature: "neutral",
+            sound_volume: "moderate",
+            humidity: "normal",
+          },
+          studying: {
+            light_intensity: "soft",
+            temperature: "cozy",
+            sound_volume: "moderate",
+            humidity: "normal",
+          },
+          eating: {
+            light_intensity: "soft",
+            temperature: "cozy",
+            sound_volume: "moderate",
+            humidity: "normal",
+          },
+        },
+        excited: {
+          laying: {
+            light_intensity: "vibrant",
+            temperature: "cool",
+            sound_volume: "high",
+            humidity: "refreshing",
+          },
+          standing: {
+            light_intensity: "vibrant",
+            temperature: "cool",
+            sound_volume: "high",
+            humidity: "refreshing",
+          },
+          studying: {
+            light_intensity: "vibrant",
+            temperature: "cool",
+            sound_volume: "high",
+            humidity: "refreshing",
+          },
+          eating: {
+            light_intensity: "vibrant",
+            temperature: "cool",
+            sound_volume: "high",
+            humidity: "refreshing",
+          },
+        },
+      },
+    };
+  } else if (profile_id == 76) {
+    preferences = {
+      moods: {
+        happy: {
+          laying: {
+            light_intensity: "soft",
+            temperature: "warm",
+            sound_volume: "moderate",
+            humidity: "comfortable",
+          },
+          standing: {
+            light_intensity: "bright",
+            temperature: "neutral",
+            sound_volume: "moderate",
+            humidity: "normal",
+          },
+          studying: {
+            light_intensity: "bright",
+            temperature: "cool",
+            sound_volume: "high",
+            humidity: "normal",
+          },
+          eating: {
+            light_intensity: "vibrant",
+            temperature: "warm",
+            sound_volume: "moderate",
+            humidity: "normal",
+          },
+        },
+        sad: {
+          laying: {
+            light_intensity: "dim",
+            temperature: "comfortable",
+            sound_volume: "low",
+            humidity: "normal",
+          },
+          standing: {
+            light_intensity: "dim",
+            temperature: "neutral",
+            sound_volume: "low",
+            humidity: "normal",
+          },
+          studying: {
+            light_intensity: "soft",
+            temperature: "cozy",
+            sound_volume: "low",
+            humidity: "normal",
+          },
+          eating: {
+            light_intensity: "soft",
+            temperature: "cozy",
+            sound_volume: "low",
+            humidity: "normal",
+          },
+        },
+        excited: {
+          laying: {
+            light_intensity: "vibrant",
+            temperature: "cool",
+            sound_volume: "high",
+            humidity: "refreshing",
+          },
+          standing: {
+            light_intensity: "vibrant",
+            temperature: "cool",
+            sound_volume: "high",
+            humidity: "refreshing",
+          },
+          studying: {
+            light_intensity: "vibrant",
+            temperature: "cool",
+            sound_volume: "high",
+            humidity: "refreshing",
+          },
+          eating: {
+            light_intensity: "vibrant",
+            temperature: "cool",
+            sound_volume: "high",
+            humidity: "refreshing",
+          },
+        },
+      },
+    };
+  } else {
+    console.error("Profile with id ", profile_id, " was not found.");
+    reject(err);
+  }
 
-app.post("/db", (req, res) => {
-  const data = {
-    id: req.body.id,
-    price: req.body.price,
-    userId: req.body.userId,
-    eventId: req.body.eventId,
-  };
-
-  const query =
-    "INSERT INTO tickets (id, price, userId, eventId) VALUES (" +
-    data.id +
-    "," +
-    data.price +
-    "," +
-    data.userId +
-    "," +
-    data.eventId +
-    ")";
-
-  pool.query(query, data, (error, results) => {
-    if (error) {
-      console.log(error);
-      res.send(error);
-    } else {
-      console.log(results);
-      if (!results) {
-        res.status(404).send("Not found");
-      } else {
-        res.json(results);
-      }
-    }
-  });
-});
-
-app.delete("/db/:id", (req, res) => {
-  const id = req.params.id;
-  const query = "DELETE FROM tickets WHERE id=?";
-
-  pool.query(query, id, (error, results) => {
-    if (error) {
-      console.log(error);
-      res.send(error);
-    } else {
-      console.log(results);
-      if (!results) {
-        res.status(404).send("Not found");
-      } else {
-        res.json(results);
-      }
-    }
-  });
+  res.status(200).send(preferences);
 });
 
 exports.appfunc = app;
