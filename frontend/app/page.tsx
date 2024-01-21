@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { FaTemperatureLow } from "react-icons/fa";
 import { WiHumidity } from "react-icons/wi";
@@ -14,14 +14,15 @@ const userImages = [
   "https://i.ibb.co/GJCn6Pp/Screenshot-2024-01-21-at-10-30-09.png",
   "https://i.ibb.co/HY25J3c/Screenshot-2024-01-21-at-10-32-51.png",
   "https://i.ibb.co/xC1yCFM/Screenshot-2023-08-05-at-18-20-42.png",
+  "https://i.ibb.co/fHJN1wx/plus-symbol-button.png",
 ];
 
-// Assuming you have user information, replace the placeholder values with actual user information
 const usersInfo = [
   { name: "Rafi Papa", role: "Owner" },
   { name: "Hieu", role: "Member" },
   { name: "Lori", role: "Member" },
   { name: "Aleksa", role: "Member" },
+  { name: "", role: "Add new member" },
 ];
 
 const UserSquare: React.FC<{ image: string; name: string; role: string }> = ({
@@ -50,6 +51,54 @@ const UserSquare: React.FC<{ image: string; name: string; role: string }> = ({
   </div>
 );
 
+const SimpleForm = () => (
+  <form className="w-96 mx-auto p-4 mt-20 rounded shadow-lg">
+    <label className="block mb-2 text-gray-800">Name:</label>
+    <input
+      type="text"
+      name="name"
+      className="w-full border p-2 mb-4"
+      required
+    />
+
+    <label className="block mb-2 text-gray-800">Age:</label>
+    <input
+      type="number"
+      name="age"
+      className="w-full border p-2 mb-4"
+      required
+    />
+
+    <label className="block mb-2 text-gray-800">Preference 1:</label>
+    <input
+      type="text"
+      name="preference1"
+      className="w-full border p-2 mb-4"
+      required
+    />
+
+    <label className="block mb-2 text-gray-800">Preference 2:</label>
+    <input
+      type="text"
+      name="preference2"
+      className="w-full border p-2 mb-4"
+      required
+    />
+
+    <label className="block mb-2 text-gray-800">Preference 3:</label>
+    <input
+      type="text"
+      name="preference3"
+      className="w-full border p-2 mb-4"
+      required
+    />
+
+    <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+      Submit
+    </button>
+  </form>
+);
+
 export default function Home() {
   const [settings, setSettings] = useState<PreferencesState>({
     activeRoom: "living",
@@ -66,7 +115,7 @@ export default function Home() {
         </h1>
         <br />
         <br />
-        <div className="mb-32 grid grid-cols-4 gap-10 text-center">
+        <div className="mb-32 grid grid-cols-5 gap-10 text-center">
           {userImages.map((image, index) => (
             <UserSquare
               key={index}
@@ -76,8 +125,7 @@ export default function Home() {
             />
           ))}
         </div>
-        <br />
-        <br />
+        <SimpleForm />
         <br />
         <br />
         <br />
@@ -111,6 +159,14 @@ export default function Home() {
         <br />
 
         <FloorMap />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <div
           className="mb-32 grid text-center gap-4 lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left"
           onClick={() => {}}

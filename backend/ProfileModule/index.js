@@ -13,26 +13,38 @@ app.get("/profile-module/household-members", (req, res) => {
     household_members: [
       {
         id: "12",
-        name: "Emily Davis",
-        gender: "female",
-        picture: "https://example.com/emily_picture.jpg",
+        name: "Rafi Papa",
+        gender: "male",
+        picture:
+          "https://i.ibb.co/60qcsSS/Screenshot-2024-01-21-at-10-33-42.png",
         age: 32,
         role: "OWNER",
       },
       {
         id: "45",
-        name: "Michael Davis",
+        name: "Hieu",
         gender: "male",
-        picture: "https://example.com/michael_picture.jpg",
+        picture:
+          "https://i.ibb.co/GJCn6Pp/Screenshot-2024-01-21-at-10-30-09.png",
         age: 35,
         role: "MEBMBER",
       },
       {
         id: "76",
-        name: "Olivia Davis",
-        gender: "female",
-        picture: "https://example.com/olivia_picture.jpg",
+        name: "Lori",
+        gender: "male",
+        picture:
+          "https://i.ibb.co/HY25J3c/Screenshot-2024-01-21-at-10-32-51.png",
         age: 14,
+        role: "MEBMBER",
+      },
+      {
+        id: "23",
+        name: "Aleksa",
+        gender: "male",
+        picture:
+          "https://i.ibb.co/xC1yCFM/Screenshot-2023-08-05-at-18-20-42.png",
+        age: 23,
         role: "MEBMBER",
       },
     ],
