@@ -1,12 +1,11 @@
 "use client";
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import React from "react";
 
 import { FaTemperatureLow } from "react-icons/fa";
 import { WiHumidity } from "react-icons/wi";
 import { MdOutlineLightMode } from "react-icons/md";
 import { HiMiniSpeakerWave } from "react-icons/hi2";
-import { PreferencesContext, PreferencesState } from "./preferencesContext";
+import { PreferencesContext, SETTINGS } from "./preferencesContext";
 import FloorMap from "@/app/floor-map.view";
 
 const userImages = [
@@ -100,15 +99,18 @@ const SimpleForm = () => (
 );
 
 export default function Home() {
-  const [settings, setSettings] = useState<PreferencesState>({
-    activeRoom: "living",
-    temperature: 19,
-    humidity: 85,
-    lightIntensity: "intense",
-    soundVolume: 76,
-  });
+  const [selectedRoom, setSelectedRoom] = React.useState("living");
+
+  const selectedRoomPreferences = React.useMemo(() => {
+    if (SETTINGS.find((setting) => setting.location === selectedRoom)) {
+      return SETTINGS.find((setting) => setting.location === selectedRoom);
+    }
+  }, [selectedRoom]);
+
   return (
-    <PreferencesContext.Provider value={{ settings, setSettings }}>
+    <PreferencesContext.Provider
+      value={{ settings: SETTINGS, setSelectedRoom, selectedRoom }}
+    >
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <h1 className="text-4xl font-bold text-gray-800 mb-6">
           Profiles Overview
@@ -167,6 +169,7 @@ export default function Home() {
         <br />
         <br />
         <br />
+
         <div
           className="mb-32 grid text-center gap-4 lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left"
           onClick={() => {}}
@@ -180,7 +183,7 @@ export default function Home() {
             <h2 className={`mb-3 text-2xl font-semibold`}>Temperature</h2>
             <div className="flex gap-2 justify-between">
               <p className={`m-0 max-w-[30ch] text-xl opacity-50`}>
-                {settings.temperature}°C
+                {selectedRoomPreferences?.temperature}°C
               </p>
               <FaTemperatureLow size={"1.5em"} />
             </div>
@@ -195,7 +198,7 @@ export default function Home() {
             <h2 className={`mb-3 text-2xl font-semibold`}>Humidity</h2>
             <div className="flex gap-2 justify-between">
               <p className={`m-0 max-w-[30ch] text-xl opacity-50`}>
-                {settings.humidity}%
+                {selectedRoomPreferences?.humidity}%
               </p>
               <WiHumidity size={"2em"} />
             </div>
@@ -210,7 +213,7 @@ export default function Home() {
             <h2 className={`mb-3 text-2xl font-semibold`}>Light intensity</h2>
             <div className="flex gap-2 justify-between">
               <p className={`m-0 max-w-[30ch] text-xl opacity-50`}>
-                {settings.lightIntensity}
+                {selectedRoomPreferences?.lightIntensity}
               </p>
               <MdOutlineLightMode size={"1.5em"} />
             </div>
@@ -225,7 +228,7 @@ export default function Home() {
             <h2 className={`mb-3 text-2xl font-semibold`}>Sound Volume</h2>
             <div className="flex gap-2 justify-between">
               <p className={`m-0 max-w-[30ch] text-xl opacity-50`}>
-                {settings.soundVolume}
+                {selectedRoomPreferences?.soundVolume}
               </p>
               <HiMiniSpeakerWave size={"1.5em"} />
             </div>
