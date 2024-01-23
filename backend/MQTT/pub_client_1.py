@@ -32,17 +32,30 @@ def generate_unique_random_string(exclude_strings, length=8):
             return random_string
 
 # List of strings to exclude
-excluded_strings = ["3bc51062", "cd9fb1e1", "6e81b125", "b554d1a6"]
+excluded_strings = ["3bc51062", "cd9fb1e1", "6e81b125", "b554d1a6", "a2f4g6h8", "b3c5d7e","k1l3m5n7","p2q4r6s8","t1u3v5w7","x2y4z6a",]
+
 
 # Function to encrypt person detected
-def encrypt_person(encrypted_string):
+def encrypt_person(person):
     encryption_map = {
         "Rafi": "3bc51062",
         "Hieu": "cd9fb1e1",
         "Aleksa": "6e81b125",
         "Lorenzo": "b554d1a6"
     }
-    return encryption_map.get(encrypted_string, generate_unique_random_string(excluded_strings))
+    return encryption_map.get(person, generate_unique_random_string(excluded_strings))
+
+# Function to encrypt activities
+def encrypt_activities(activities):
+    encryption_map = {
+        "reading": "a2f4g6h8",
+        "playing": "b3c5d7e",
+        "relaxing": "k1l3m5n7",
+        "sleeping": "p2q4r6s8",
+        "eating": "t1u3v5w7",
+        "cooking": "x2y4z6a",
+    }
+    return [encryption_map.get(activity, generate_unique_random_string(excluded_strings)) for activity in activities]
 
 # Read and publish data from CSV
 try:
@@ -52,15 +65,18 @@ try:
         for row in csv_reader:
             time.sleep(random.randint(1, 5))  # Random delay between messages
             
-            # encrypt person detected
+            # Encrypt person detected and activities
             persons_detected = eval(row[2])
+            detected_activities = eval(row[3])
+            
             encrypted_persons = [encrypt_person(person) for person in persons_detected]
+            encrypted_activities = encrypt_activities(detected_activities)
             
             data_map = {
                 "timestamp": str(row[0]),
                 "room": str(row[1]),
                 "person_detected": str(encrypted_persons),
-                "detected_activities": str(eval(row[3]))
+                "detected_activities": str(encrypted_activities)
             }
 
             # data_map_string = str(data_map)

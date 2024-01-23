@@ -16,10 +16,16 @@ client.on("connect", () => {
 
 // Callback when a message is received from the subscribed topic
 client.on("message", (topic, message) => {
-  console.log(`Received message on topic ${topic}: ${message.toString()}`);
-  // You can parse the message as needed
-  const data = JSON.parse(message.toString());
-  console.log("Parsed Data:", data);
+  //console.log(`Received message on topic ${topic}: ${message.toString()}`);
+  // Print raw message
+  //console.log("Raw Message:", message.toString());
+  
+  try {
+    const data = JSON.parse(message.toString());
+    console.log("Parsed Data:", data);
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+  }
 });
 
 // Callback when the client is disconnected
