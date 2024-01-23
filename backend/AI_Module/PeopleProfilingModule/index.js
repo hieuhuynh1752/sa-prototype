@@ -36,11 +36,6 @@ app.post("/raw-sensoring-device-data", async (req, res) => {
   }
 
   try {
-    console.log(receivedData.detected_activities);
-    console.log(receivedData.detected_activities);
-    console.log(receivedData.detected_activities);
-    console.log(receivedData.detected_activities);
-    console.log(receivedData.detected_activities);
     const responseBehaviour = await axios
       .post("http://localhost:8101/recognize", {
         detected_activities: receivedData.detected_activities,
