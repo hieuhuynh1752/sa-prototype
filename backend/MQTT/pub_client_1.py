@@ -4,6 +4,7 @@ import random
 import csv
 from datetime import datetime
 import string
+import json
 
 # hostname
 broker = "test.mosquitto.org"
@@ -11,7 +12,7 @@ broker = "test.mosquitto.org"
 port = 1883
 
 def on_publish(client, userdata, result):
-    print("Device 1 : Data published.")
+    print("Data published.")
     pass
 
 client = paho.Client("admin")
@@ -56,13 +57,14 @@ try:
             encrypted_persons = [encrypt_person(person) for person in persons_detected]
             
             data_map = {
-                "Timestamp": row[0],
-                "Room": row[1],
-                "Person Detected": encrypted_persons,
-                "Detected Activities": eval(row[3])
+                "timestamp": str(row[0]),
+                "room": str(row[1]),
+                "person_detected": str(encrypted_persons),
+                "detected_activities": str(eval(row[3]))
             }
 
-            data_map_string = str(data_map)
+            # data_map_string = str(data_map)
+            data_map_string = json.dumps(data_map)
             ret = client.publish("/smart_home_data", data_map_string.encode())
             time.sleep(5)
 
