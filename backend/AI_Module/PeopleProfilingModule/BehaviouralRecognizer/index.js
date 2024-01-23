@@ -9,7 +9,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/recognize", (req, res) => {
-  // const rawBehaviour = req.body;
+  const rawBehaviour = req.body;
+  console.log("received:");
+  console.log(rawBehaviour);
 
   // do mapping logic here
 
