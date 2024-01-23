@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction } from "react";
+import React, { createContext, Dispatch, SetStateAction } from "react";
 
 export type UserProfile = {
   username: string;
@@ -30,13 +30,13 @@ export const SETTINGS: PreferencesState[] = [
         username: "Lori",
         activity: "reading",
         color: "bg-red-500",
-        status: "good",
+        status: "warning",
       },
       {
         username: "Hieu",
         activity: "reading",
         color: "bg-indigo-500",
-        status: "good",
+        status: "bad",
       },
     ],
     location: "living",
@@ -98,3 +98,9 @@ export const PreferencesContext: React.Context<PreferencesContextValue> =
     settings: SETTINGS,
     selectedRoom: "living",
   });
+
+export const selectedRoomPreferences = (selectedRoom: string) => {
+  if (SETTINGS.find((setting) => setting.location === selectedRoom)) {
+    return SETTINGS.find((setting) => setting.location === selectedRoom);
+  }
+};

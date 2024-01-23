@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Header />
-        <main className="flex min-h-screen flex-col items-center justify-between p-16 py-24">
+        <main className="flex min-h-screen flex-col items-center justify-between p-16 py-24 gap-8">
           {children}
         </main>
       </body>

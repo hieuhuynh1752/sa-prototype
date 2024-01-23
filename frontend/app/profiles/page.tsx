@@ -17,34 +17,44 @@ const usersInfo = [
   { name: "", role: "Add new member" },
 ];
 
-const UserSquare: React.FC<{ image: string; name: string; role: string }> = ({
-  image,
-  name,
-  role,
-}) => (
-  <div className="flex flex-col items-center">
+const UserItem: React.FC<{
+  image: string;
+  name: string;
+  role: string;
+  isLast: boolean;
+}> = ({ image, name, role, isLast }) => (
+  <div className="flex flex-col">
     <div
-      className="w-40 h-40 mb-2 relative overflow-hidden rounded-full cursor-pointer"
-      style={{
-        transition: "opacity 0.3s",
-        opacity: 1,
-      }}
-      onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
-      onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
+      className={`flex cursor-pointer p-2 rounded-lg border-solid border-2 border-transparent hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30`}
     >
-      <img
-        src={image}
-        alt={`Profile of ${name}`}
-        className="w-full h-full object-cover"
-      />
+      <div className="flex gap-4">
+        <div
+          className="w-10 h-10 overflow-hidden rounded-full cursor-pointer"
+          style={{
+            transition: "opacity 0.3s",
+            opacity: 1,
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
+          onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
+        >
+          <img
+            src={image}
+            alt={`Profile of ${name}`}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div>
+          <p className="font-semibold">{name}</p>
+          <p className="text-gray-500">{role}</p>
+        </div>
+      </div>
     </div>
-    <p className="text-center font-semibold">{name}</p>
-    <p className="text-center text-gray-500">{role}</p>
+    {!isLast ? <span className="w-full h-0.5 bg-gray-200 my-1"></span> : <></>}
   </div>
 );
 
 const SimpleForm = () => (
-  <form className="w-96 mx-auto p-4 mt-20 rounded shadow-lg">
+  <form className=" pl-4 pt-4">
     <label className="block mb-2 text-gray-800">Name:</label>
     <input
       type="text"
@@ -85,61 +95,35 @@ const SimpleForm = () => (
       required
     />
 
-    <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
-      Submit
-    </button>
+    <div className="flex content-end">
+      <button
+        type="submit"
+        className="bg-blue-500 text-white py-2 px-4 rounded"
+      >
+        Submit
+      </button>
+    </div>
   </form>
 );
 export default function ProfilesPage() {
   return (
     <>
-      <h1 className="text-4xl font-bold text-gray-800 mb-6">
-        Profiles Overview
-      </h1>
-      <br />
-      <br />
-      <div className="mb-32 grid grid-cols-5 gap-10 text-center">
-        {userImages.map((image, index) => (
-          <UserSquare
-            key={index}
-            image={image}
-            name={usersInfo[index].name}
-            role={usersInfo[index].role}
-          />
-        ))}
+      <div className="w-full max-w-[70vw] h-fit bg-white flex p-4">
+        <div className="w-1/3 h-fit pr-4 ">
+          {userImages.map((image, index) => (
+            <UserItem
+              key={index}
+              image={image}
+              name={usersInfo[index].name}
+              role={usersInfo[index].role}
+              isLast={index === userImages.length - 1}
+            />
+          ))}
+        </div>
+        <div className="w-2/3 h-fit border-solid border-l-2 border-gray-500">
+          <SimpleForm />
+        </div>
       </div>
-      <SimpleForm />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </>
   );
 }
