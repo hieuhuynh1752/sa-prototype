@@ -8,6 +8,30 @@ app.get("/", (req, res) => {
   res.status(200).send(message);
 });
 
+app.post("/raw-sensoring-device-data", async (req, res) => {
+  // const eventDTO = createEventDTO(req.body);
+  // if (!validateNewEventData(eventDTO)){
+  //     return res.status(400).send("Invalid event data.");
+  // }
+  // let newEvent = createNewEvent(eventDTO);
+  // const query = fillInsertEventQuery(newEvent);
+  // const sqlOkPacket = await doQuery(query); // sqlOkPacket is a return value when inserting/updating sql table
+  // const eventId = sqlOkPacket.insertId;
+  // if (!eventId){
+  //     return res.status(400).send("Did not create new event.");
+  // }
+  // const isOkay = await addEventDesc(eventId, eventDTO.description);
+  // if (!isOkay){
+  //     return res.status(409).send("Did not update description.");
+  // }
+  // await addEventPrice(eventId, eventDTO.price);
+  // newEvent.id = eventId;
+  // const eventResponse = await createEventResponse(newEvent);
+  console.log("received data");
+  console.log(req.body);
+  return res.json("all good");
+});
+
 app.get("/people-profiling-module/", (req, res) => {
   let members = {
     household_members: [
