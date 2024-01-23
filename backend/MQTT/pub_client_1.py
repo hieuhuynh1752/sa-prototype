@@ -3,6 +3,7 @@ import time
 import random
 import csv
 from datetime import datetime
+import string
 
 # hostname
 broker = "test.mosquitto.org"
@@ -21,15 +22,26 @@ client.connect(broker, port)
 csv_file_path = 'data/SmartHome.csv'
 delimiter = ','
 
-# Function to decrypt person detected
-def decrypt_person(encrypted_string):
-    decryption_map = {
-        "3bc51062": "Rafi",
-        "cd9fb1e1": "Hieu",
-        "6e81b125": "Aleksa",
-        "b554d1a6": "Lorenzo"
+def generate_unique_random_string(exclude_strings, length=8):
+    # Characters that can be used to generate a string
+    chars = string.ascii_lowercase + string.digits
+    while True:
+        random_string = ''.join(random.choice(chars) for _ in range(length))
+        if random_string not in exclude_strings:
+            return random_string
+
+# List of strings to exclude
+excluded_strings = ["3bc51062", "cd9fb1e1", "6e81b125", "b554d1a6"]
+
+# Function to encrypt person detected
+def encrypt_person(encrypted_string):
+    encryption_map = {
+        "Rafi": "3bc51062",
+        "Hieu": "cd9fb1e1",
+        "Aleksa": "6e81b125",
+        "Lorenzo": "b554d1a6"
     }
-    return decryption_map.get(encrypted_string, "Unknown")
+    return encryption_map.get(encrypted_string, generate_unique_random_string(excluded_strings))
 
 # Read and publish data from CSV
 try:
@@ -39,14 +51,14 @@ try:
         for row in csv_reader:
             time.sleep(random.randint(1, 5))  # Random delay between messages
             
-            # Decrypt person detected
+            # encrypt person detected
             persons_detected = eval(row[2])
-            decrypted_persons = [decrypt_person(person) for person in persons_detected]
+            encrypted_persons = [encrypt_person(person) for person in persons_detected]
             
             data_map = {
                 "Timestamp": row[0],
                 "Room": row[1],
-                "Person Detected": decrypted_persons,
+                "Person Detected": encrypted_persons,
                 "Detected Activities": eval(row[3])
             }
 
