@@ -49,6 +49,17 @@ app.post("/make-decision", async (req, res) => {
   // make decision based on preferences
   // do average or whatever other logic
   // looking like below:
+  //
+  // BUT FOR EVERY ROOM !!!!!!!!!!
+  //
+  // decision = {
+  //   room1{
+  //     temperature: 100,
+  //     humidity: 100,
+  //     light_intensity: 100,
+  //     sound_volume: 100,
+  //   }
+  // }
 
   decision = {
     temperature: 100,
@@ -59,6 +70,23 @@ app.post("/make-decision", async (req, res) => {
 
   console.log(energyDecision);
   console.log({ decided: decision });
+
+  try {
+    responseOrch = await axios
+      .post("http://localhost:8096/apply-decisions-to-devices", {
+        decision,
+      }) // DeviceOrchestrator
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.error("Error making API request:", error);
+      });
+  } catch (error) {
+    console.error("Error making API request:", error);
+  }
+
+  console.log(responseOrch);
 
   res.status(200).send({ decided: decision });
 });
