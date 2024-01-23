@@ -20,23 +20,32 @@ app.post("/recognize", (req, res) => {
   console.log(rawPeople.person_detected);
   console.log("transfered into");
 
-  // Assuming you have a decryption map
-  const decryptionMap = {
-    "3bc51062": "Rafi",
-    cd9fb1e1: "Hieu",
-    "6e81b125": "Aleksa",
-    b554d1a6: "Lorenzo",
-  };
-
-  // Assuming rawPeople.people is an array of encrypted people
-  const decryptedPeople = rawPeople.person_detected.map((encryptedPerson) =>
-    decrypt_person(encryptedPerson, decryptionMap)
-  );
+  const decryptedPeople = recognizePeople(rawPeople.person_detected);
 
   console.log(decryptedPeople);
   console.log("===========");
 
   res.status(200).send(decryptedPeople);
 });
+
+function recognizePeople(people) {
+  let recognized_people = [];
+
+  people.forEach((person) => {
+    if (person === "3bc51062") {
+      recognized_people.push("Rafi");
+    } else if (person === "cd9fb1e1") {
+      recognized_people.push("Hieu");
+    } else if (person === "6e81b125") {
+      recognized_people.push("Aleksa");
+    } else if (person === "b554d1a6") {
+      recognized_people.push("Lorenzo");
+    } else {
+      recognized_people.push("Unknown");
+    }
+  });
+
+  return recognized_people;
+}
 
 exports.appfunc = app;

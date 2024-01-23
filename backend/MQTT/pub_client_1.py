@@ -32,7 +32,7 @@ def generate_unique_random_string(exclude_strings, length=8):
             return random_string
 
 # List of strings to exclude
-excluded_strings = ["3bc51062", "cd9fb1e1", "6e81b125", "b554d1a6", "a2f4g6h8", "b3c5d7e","k1l3m5n7","p2q4r6s8","t1u3v5w7","x2y4z6a",]
+excluded_strings = ["3bc51062", "cd9fb1e1", "6e81b125", "b554d1a6", "a2f4g6h8", "b3c5d7e","k1l3m5n7","p2q4r6s8","t1u3v5w7","x2y4z6a", "i3y89za"]
 
 
 # Function to encrypt person detected
@@ -54,6 +54,7 @@ def encrypt_activities(activities):
         "sleeping": "p2q4r6s8",
         "eating": "t1u3v5w7",
         "cooking": "x2y4z6a",
+        "suspicious_activities": "i3y89za"
     }
     return [encryption_map.get(activity, generate_unique_random_string(excluded_strings)) for activity in activities]
 

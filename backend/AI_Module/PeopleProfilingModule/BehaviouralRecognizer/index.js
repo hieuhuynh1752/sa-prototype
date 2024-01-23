@@ -16,23 +16,12 @@ app.get("/", (req, res) => {
 });
 
 app.post("/recognize", (req, res) => {
-  const rawBehaviour = req.body; // Assuming you have a request body with encrypted activities
+  const rawBehaviour = req.body;
   console.log(rawBehaviour.detected_activities);
   console.log("transfered into");
 
-  // Assuming you have a decryption map
-  const decryptionMap = {
-    a2f4g6h8: "reading",
-    b3c5d7e: "playing",
-    k1l3m5n7: "relaxing",
-    p2q4r6s8: "sleeping",
-    t1u3v5w7: "eating",
-    x2y4z6a: "cooking",
-  };
-
-  // Assuming rawBehaviour.activities is an array of encrypted activities
-  const decryptedActivities = rawBehaviour.detected_activities.map(
-    (encryptedActivity) => decrypt_activity(encryptedActivity, decryptionMap)
+  const decryptedActivities = recognizeBehaviour(
+    rawBehaviour.detected_activities
   );
 
   console.log(decryptedActivities);
@@ -40,5 +29,31 @@ app.post("/recognize", (req, res) => {
 
   res.status(200).send(decryptedActivities);
 });
+
+function recognizeBehaviour(behaviours) {
+  let recognized_behaviours = [];
+
+  behaviours.forEach((behaviour) => {
+    if (behaviour === "a2f4g6h8") {
+      recognized_behaviours.push("reading");
+    } else if (behaviour === "b3c5d7e") {
+      recognized_behaviours.push("playing");
+    } else if (behaviour === "k1l3m5n7") {
+      recognized_behaviours.push("relaxing");
+    } else if (behaviour === "p2q4r6s8") {
+      recognized_behaviours.push("sleeping");
+    } else if (behaviour === "t1u3v5w7") {
+      recognized_behaviours.push("eating");
+    } else if (behaviour === "x2y4z6a") {
+      recognized_behaviours.push("cooking");
+    } else if (behaviour === "i3y89za") {
+      recognized_behaviours.push("suspicious_activities");
+    } else {
+      recognized_behaviours.push("unknown");
+    }
+  });
+
+  return recognized_behaviours;
+}
 
 exports.appfunc = app;
