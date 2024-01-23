@@ -23,12 +23,12 @@ app.post("/recognize", (req, res) => {
 
   // Assuming you have a decryption map
   const decryptionMap = {
-    a2f4g6h8: "reading",
-    b3c5d7e: "playing",
-    k1l3m5n7: "relaxing",
-    p2q4r6s8: "sleeping",
-    t1u3v5w7: "eating",
-    x2y4z6a: "cooking",
+    "a2f4g6h8": "reading",
+    "b3c5d7e": "playing",
+    "k1l3m5n7": "relaxing",
+    "p2q4r6s8": "sleeping",
+    "t1u3v5w7": "eating",
+    "x2y4z6a": "cooking",
   };
 
   // Assuming rawBehaviour.activities is an array of encrypted activities
