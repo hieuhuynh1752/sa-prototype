@@ -75,8 +75,8 @@ try:
             data_map = {
                 "timestamp": str(row[0]),
                 "room": str(row[1]),
-                "person_detected": str(encrypted_persons),
-                "detected_activities": str(encrypted_activities)
+                "person_detected": encrypted_persons,
+                "detected_activities": encrypted_activities
             }
 
             # data_map_string = str(data_map)

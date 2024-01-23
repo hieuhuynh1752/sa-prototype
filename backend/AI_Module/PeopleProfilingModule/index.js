@@ -20,7 +20,9 @@ app.post("/raw-sensoring-device-data", async (req, res) => {
 
   try {
     const responsePeople = await axios
-      .post("http://localhost:8103/recognize", receivedData.person_detected) // people recognizer
+      .post("http://localhost:8103/recognize", {
+        person_detected: receivedData.person_detected,
+      }) // people recognizer
       .then((response) => {
         recognizedPeople = response.data;
       })
@@ -34,8 +36,15 @@ app.post("/raw-sensoring-device-data", async (req, res) => {
   }
 
   try {
+    console.log(receivedData.detected_activities);
+    console.log(receivedData.detected_activities);
+    console.log(receivedData.detected_activities);
+    console.log(receivedData.detected_activities);
+    console.log(receivedData.detected_activities);
     const responseBehaviour = await axios
-      .post("http://localhost:8101/recognize", receivedData.detected_activities) // behaviour recognizer
+      .post("http://localhost:8101/recognize", {
+        detected_activities: receivedData.detected_activities,
+      }) // behaviour recognizer
       .then((response) => {
         recognizedBehavior = response.data;
       })

@@ -17,19 +17,24 @@ app.get("/", (req, res) => {
 
 app.post("/recognize", (req, res) => {
   const rawPeople = req.body; // Assuming you have a request body with encrypted people
+  console.log(rawPeople.person_detected);
+  console.log("transfered into");
 
   // Assuming you have a decryption map
   const decryptionMap = {
     "3bc51062": "Rafi",
-    "cd9fb1e1": "Hieu",
+    cd9fb1e1: "Hieu",
     "6e81b125": "Aleksa",
-    "b554d1a6": "Lorenzo",
+    b554d1a6: "Lorenzo",
   };
 
   // Assuming rawPeople.people is an array of encrypted people
-  const decryptedPeople = rawPeople.people.map((encryptedPerson) =>
+  const decryptedPeople = rawPeople.person_detected.map((encryptedPerson) =>
     decrypt_person(encryptedPerson, decryptionMap)
   );
+
+  console.log(decryptedPeople);
+  console.log("===========");
 
   res.status(200).send(decryptedPeople);
 });
