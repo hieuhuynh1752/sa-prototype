@@ -35,6 +35,7 @@ app.get("/energy-management/make-energy-decision", async (req, res) => {
   }
 
   // make decision
+  console.log(decision);
   res.status(200).send(decision);
 });
 

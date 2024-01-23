@@ -61,12 +61,13 @@ app.post("/take-preferences-and-forward", async (req, res) => {
   console.log(recognizedData);
   let responsePreferences;
 
+  // obtain preferences
   try {
     responsePreferences = await axios
       .post("http://localhost:8088/get-preferences", {
         person_detected: recognizedData.person_detected,
         detected_activities: recognizedData.detected_activities,
-      }) // preferences manager
+      }) // PreferencesManager
       .then((response) => {
         return response.data;
       })
@@ -79,7 +80,27 @@ app.post("/take-preferences-and-forward", async (req, res) => {
 
   console.log(responsePreferences);
 
-  res.status(200).send(responsePreferences);
+  // forward to the BehaviourComfortModule
+
+  try {
+    responseDecision = await axios
+      .post("http://localhost:8098/make-decision", {
+        person_detected: recognizedData.person_detected,
+        detected_activities: recognizedData.detected_activities,
+      }) // DecisionMakingManager (BehaviourComfortModule, but skipping it because on this level of prototype it would only be a bridge)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.error("Error making API request:", error);
+      });
+  } catch (error) {
+    console.error("Error making API request:", error);
+  }
+
+  console.log(responseDecision);
+
+  res.status(200).send(responseDecision);
 });
 
 exports.appfunc = app;

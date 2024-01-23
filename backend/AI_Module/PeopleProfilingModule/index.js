@@ -67,13 +67,13 @@ app.post("/raw-sensoring-device-data", async (req, res) => {
   //
   //
 
-  // send first to the EmergencyModule
+  //TODO send first to the EmergencyModule
 
   // doesn't have to be 'await'
 
   try {
     const responsePeople = await axios
-      .post("http://localhost:8089/take-preferences-and-forward", receivedData) // ProfileModule
+      .post("http://localhost:8089/take-preferences-and-forward", receivedData) // ProfileModule and PreferencesManager
       .then((response) => {
         return response.data;
       })
