@@ -1,6 +1,11 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 
-export type UserProfile = { username: string; status: string; color: string };
+export type UserProfile = {
+  username: string;
+  status: string;
+  activity: string;
+  color: string;
+};
 
 export type PreferencesState = {
   users?: UserProfile[];
@@ -23,13 +28,15 @@ export const SETTINGS: PreferencesState[] = [
     users: [
       {
         username: "Lori",
-        status: "reading",
+        activity: "reading",
         color: "bg-red-500",
+        status: "good",
       },
       {
         username: "Hieu",
-        status: "reading",
+        activity: "reading",
         color: "bg-indigo-500",
+        status: "good",
       },
     ],
     location: "living",
@@ -39,7 +46,14 @@ export const SETTINGS: PreferencesState[] = [
     soundVolume: 76,
   },
   {
-    users: [{ username: "Aleksa", status: "studying", color: "bg-teal-500" }],
+    users: [
+      {
+        username: "Aleksa",
+        activity: "studying",
+        color: "bg-teal-500",
+        status: "good",
+      },
+    ],
     location: "1",
     temperature: 22,
     humidity: 90,
@@ -47,7 +61,14 @@ export const SETTINGS: PreferencesState[] = [
     soundVolume: 0,
   },
   {
-    users: [{ username: "Rafi", status: "sleeping", color: "bg-orange-500" }],
+    users: [
+      {
+        username: "Rafi",
+        activity: "sleeping",
+        color: "bg-orange-500",
+        status: "good",
+      },
+    ],
     location: "2",
     temperature: 24,
     humidity: 70,

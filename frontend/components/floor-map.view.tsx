@@ -18,7 +18,7 @@ export default function FloorMap() {
   );
 
   return (
-    <div className="w-full h-96 bg-white border-4 border-black flex">
+    <div className="w-2/3 h-96 bg-white border-4 border-black flex m-auto">
       <div className="flex flex-col w-1/3 border-r-4 border-black">
         <div
           className={`flex relative cursor-pointer w-full h-1/2 border-b-4 border-black transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "1" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
