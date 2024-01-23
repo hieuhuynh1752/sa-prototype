@@ -1,4 +1,6 @@
 const express = require("express");
+const axios = require("axios");
+
 // const mysql = require('mysql');
 const app = express();
 
@@ -51,6 +53,33 @@ app.get("/profile-module/household-members", (req, res) => {
   };
 
   res.status(200).send(members);
+});
+
+app.post("/take-preferences-and-forward", async (req, res) => {
+  const recognizedData = req.body;
+
+  console.log(recognizedData);
+  let responsePreferences;
+
+  try {
+    responsePreferences = await axios
+      .post("http://localhost:8088/get-preferences", {
+        person_detected: recognizedData.person_detected,
+        detected_activities: recognizedData.detected_activities,
+      }) // preferences manager
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.error("Error making API request:", error);
+      });
+  } catch (error) {
+    console.error("Error making API request:", error);
+  }
+
+  console.log(responsePreferences);
+
+  res.status(200).send(responsePreferences);
 });
 
 exports.appfunc = app;

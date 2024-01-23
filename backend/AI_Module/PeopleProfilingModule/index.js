@@ -58,6 +58,32 @@ app.post("/raw-sensoring-device-data", async (req, res) => {
   console.log(receivedData);
   console.log("=================");
 
+  //
+  // should send data to BehavioralLearner but since this is just a prototype then that step is skipped
+  //
+  // therefore sending data directly to the ProfileModule for the purposes of gathering preferences and adjusting the
+  // house for each user
+  // as well as sending the data to the EmergencyModule for checking if it's an emergency and if so, to activate the protocol
+  //
+  //
+
+  // send first to the EmergencyModule
+
+  // doesn't have to be 'await'
+
+  try {
+    const responsePeople = await axios
+      .post("http://localhost:8089/take-preferences-and-forward", receivedData) // ProfileModule
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.error("Error making API request:", error);
+      });
+  } catch (error) {
+    console.error("Error making API request:", error);
+  }
+
   return res.json("all good");
 });
 
