@@ -4,16 +4,23 @@ import React from "react";
 
 const SystemLogs: React.FC = () => {
   const wsRef = React.useRef<WebSocket | null>(null);
+  const [systemLogs, setSystemLogs] = React.useState<string[] | undefined>();
 
   React.useEffect(() => {
     if (!wsRef.current || wsRef.current.readyState === WebSocket.CLOSED) {
-      const ws = new WebSocket("ws://localhost:8081");
+      const ws = new WebSocket("ws://localhost:8099");
       ws.onopen = () => {
         console.log("Connected to WebSocket server");
       };
       ws.onmessage = (event) => {
         // Handle incoming messages
         console.log("Received:", event.data);
+
+        setSystemLogs((prevState) => {
+          let arr = prevState ? [...prevState] : [];
+          arr.push(event.data);
+          return arr;
+        });
       };
       ws.onclose = () => {
         console.log("Disconnected from WebSocket server");
@@ -36,118 +43,14 @@ const SystemLogs: React.FC = () => {
         <div className="flex flex-1 border-b-2 border-solid border-black"></div>
       </div>
       <div className="border-2 bg-white border-t-0 border-solid w-full border-black p-4">
-        <div
-          className="bg-gray-200 p-2 overflow-auto h-full font-mono"
-          style={{
-            height: "calc(100% - 44px)",
-            maxHeight: "70vh",
-          }}
-        >
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
-          <p>
-            <b>System:</b> something is happening!
-          </p>
+        <div className="bg-gray-200 p-2 overflow-auto h-[70vh] font-mono">
+          {systemLogs?.map((log, index) => {
+            return (
+              <p key={index}>
+                <b>System:</b> {log}
+              </p>
+            );
+          })}
         </div>
       </div>
     </div>
