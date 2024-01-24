@@ -87,6 +87,8 @@ app.post("/take-preferences-and-forward", async (req, res) => {
       .post("http://localhost:8098/make-decision", {
         person_detected: recognizedData.person_detected,
         detected_activities: recognizedData.detected_activities,
+        responsePreferences: responsePreferences,
+        room: recognizedData.room,
       }) // DecisionMakingManager (BehaviourComfortModule, but skipping it because on this level of prototype it would only be a bridge)
       .then((response) => {
         return response.data;

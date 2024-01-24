@@ -30,6 +30,7 @@ app.post("/make-decision", async (req, res) => {
   const preferencedData = req.body;
   let energyDecision;
 
+  // @Rafi with this you are working I belive:
   console.log(preferencedData);
 
   try {
@@ -71,6 +72,8 @@ app.post("/make-decision", async (req, res) => {
   console.log(energyDecision);
   console.log({ decided: decision });
 
+  // @Rafi you send data here on this API
+  // inside the decision object
   try {
     responseOrch = await axios
       .post("http://localhost:8096/apply-decisions-to-devices", {
