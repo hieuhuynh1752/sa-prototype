@@ -12,8 +12,7 @@ app.post("/apply-decisions-to-devices", (req, res) => {
   client.publish(topic, messageString);
 
   //TODO @Lorenzo send info about this through socket (like everything else)
-  //TODO @Rafi make python script for subscribing to this (this script simulates the heating, light and other devices)
-
+  
   res.status(200).send(topic);
 });
 
