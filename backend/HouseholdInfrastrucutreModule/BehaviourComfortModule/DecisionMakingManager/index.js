@@ -19,8 +19,8 @@ function form_json_structure (person_detected, detected_activities, responsePref
   {
     if (person_detected[i] == "Unknown") {
       user_data = {
-        username: "Undefined",
-        activity: "Undefined",
+        username: "Unknown",
+        activity: "Unknown",
         color: "bg-red-500",
         status: "warning"
       };
