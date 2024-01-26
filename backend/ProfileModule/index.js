@@ -78,6 +78,29 @@ app.post("/take-preferences-and-forward", async (req, res) => {
     console.error("Error making API request:", error);
   }
 
+  // responsePreferences looking like this:
+  // [
+  //   {
+  //     preferences: {
+  //       temperature: 18,
+  //       humidity: 55,
+  //       light_intensity: 0,
+  //       sound_volume: 20
+  //     },
+  //     recognizedPerson: 'Aleksa'
+  //      recognizedActivity: 'sleeping'
+  //   },
+  //   {
+  //     preferences: {
+  //       temperature: 20,
+  //       humidity: 60,
+  //       light_intensity: 0,
+  //       sound_volume: 15
+  //     },
+  //     recognizedPerson: 'Lorenzo'
+  //    recognizedActivity: 'sleeping'
+  //   }
+  // ]
   console.log(responsePreferences);
 
   // forward to the BehaviourComfortModule

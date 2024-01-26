@@ -3,108 +3,102 @@ const express = require("express");
 const app = express();
 const axios = require("axios");
 
-let room_history = [];
+// users: [
+//   {
+//     username: "Lori",
+//     activity: "reading",
+//     color: "bg-red-500",
+//     status: "warning",
+//   },
+//   {
+//     username: "Hieu",
+//     activity: "reading",
+//     color: "bg-indigo-500",
+//     status: "bad",
+//   },
+// ],
 
-let temperature_history = 0;
-let humidity_history = 0;
-let light_history = 0;
-let sound_history = 0;
-
-function form_json_structure (person_detected, detected_activities, responsePreferences, room, output_array, update_flag=false)
-{
-  let users_array = [];
-  let user_data = {};
-  
-  for(let i = 0; i < person_detected.length; i++)
+let HOUSE_STATE = [
   {
-    if (person_detected[i] == "Unknown") {
-      user_data = {
-        username: "Unknown",
-        activity: "Unknown",
-        color: "bg-red-500",
-        status: "warning"
-      };
-    }
-    else {
-      user_data = {
-        username: person_detected[i],
-        activity: detected_activities[i],
-        color: "bg-teal-500",
-        status: "good"
-      };
-    }
-    users_array.push(user_data)
-  }
-  let temperature = 0;
-  let humidity = 0;
-  let light = 0;
-  let sound = 0;
-  if(!update_flag)
+    users: [],
+    activities: [],
+    location: "living",
+    temperature: 19,
+    humidity: 85,
+    lightIntensity: 5,
+    soundVolume: 76,
+  },
   {
-    let number_of_people = responsePreferences.length;
-    if (number_of_people != 0)
-    {
-      for(let i = 0; i < responsePreferences.length; i++)
-      {
-        if(responsePreferences[i].recognizedPerson != "Unknown")
-        {
-          temperature += responsePreferences[i].preferences.temperature;
-          humidity += responsePreferences[i].preferences.humidity;
-          light += responsePreferences[i].preferences.light;
-          sound += responsePreferences[i].preferences.sound_volume;
-        }
-        else
-        {
-          temperature += 0;
-          humidity += 0;
-          light += 0;
-          sound += 0;
-        }
-      }
-      temperature = temperature_history = Math.round(temperature/number_of_people);
-      humidity = humidity_history = Math.round(humidity/number_of_people);
-      light = Math.round(light/number_of_people);
-      sound = sound_history =Math.round(sound/number_of_people);
-    }
+    users: [],
+    location: "room1",
+    temperature: 22,
+    humidity: 90,
+    lightIntensity: 3,
+    soundVolume: 0,
+  },
+  {
+    users: [],
+    location: "room2",
+    temperature: 24,
+    humidity: 70,
+    lightIntensity: 2,
+    soundVolume: 0,
+  },
+  {
+    users: [],
+    location: "kitchen",
+    humidity: 60,
+    lightIntensity: 0,
+    soundVolume: 0,
+    temperature: 27,
+  },
+  {
+    users: [],
+    location: "entrance",
+    humidity: 70,
+    lightIntensity: 0,
+    soundVolume: 10,
+    temperature: 13,
+  },
+];
 
-    if(light==0)
-    {
-      light = light_history = "off";
-    }
-    else if(light>0 && light<=3)
-    {
-      light = light_history = "dimming";
-    }
-    else if(light>3 && light<=7)
-    {
-      light = light_history = "normal";
-    }
-    else
-    {
-      light = light_history = "intense";
-    }
-  }
-  else{
-    temperature = responsePreferences[0];
-    humidity = responsePreferences[1];
-    light = responsePreferences[2];
-    sound = responsePreferences[3];
-  }
-
-  let room_wise_info = {
-    users: users_array,
-    location: room,
-    temperature: temperature,
-    humidity: humidity,
-    lightIntensity: light,
-    soundVolume: sound
-  };
-  output_array.push(room_wise_info)
-  return output_array;
-}
 app.post("/make-decision", async (req, res) => {
+  // {
+  //   person_detected: [Aleksa, Lorenzo],
+  //   detected_activities: [sleeping, sleeping],
+  //   responsePreferences:
+  //  [
+  //   {
+  //     preferences: {
+  //       temperature: 18,
+  //       humidity: 55,
+  //       light_intensity: 0,
+  //       sound_volume: 20
+  //     },
+  //     recognizedPerson: 'Aleksa'
+  //      recognizedActivity: 'sleeping'
+  //   },
+  //   {
+  //     preferences: {
+  //       temperature: 20,
+  //       humidity: 60,
+  //       light_intensity: 0,
+  //       sound_volume: 15
+  //     },
+  //     recognizedPerson: 'Lorenzo'
+  //    recognizedActivity: 'sleeping'
+  //   }
+  // ],
+  //   room: recognizedData.room,
+  // }
+
   const preferencedData = req.body;
   let energyDecision;
+
+  // @Rafi with this you are working I belive:
+  console.log(preferencedData);
+  updateHouseState(preferencedData);
+
   try {
     const response = await axios.get(
       "http://localhost:8093/energy-management/make-energy-decision" // EnergyManagementModule
@@ -117,7 +111,7 @@ app.post("/make-decision", async (req, res) => {
     );
     res.status(500).send("Internal Server Error");
   }
-  //people doing what, room 
+
   // TODO (@Lorenzo or @Rafi)
   // make decision based on preferences
   // do average or whatever other logic
@@ -133,86 +127,20 @@ app.post("/make-decision", async (req, res) => {
   //     sound_volume: 100,
   //   }
   // }
-  
-  rooms = ["Room 1", "Room 2", "Living Room", "Kitchen", "Entrance"];
-  
-  let output_array = [];
-  if(room_history.length == 0)
-  {
-    for(let i=0; i<rooms.length; i++)
-    {
-      if(rooms[i]==preferencedData.room)
-      {
-        output_array = form_json_structure(preferencedData.person_detected, preferencedData.detected_activities, preferencedData.responsePreferences, preferencedData.room, output_array);
-      }
-      else
-      {
-        output_array = form_json_structure([], [], [], rooms[i], output_array);
-      }
-    }
-  }
-  else{
-    for(let i=0; i<rooms.length; i++)
-    {
-      if(rooms[i]==preferencedData.room)
-      {
-        output_array = form_json_structure(preferencedData.person_detected, preferencedData.detected_activities, preferencedData.responsePreferences, preferencedData.room, output_array);
-      }
-      else if(rooms[i] == room_history[room_history.length-1].room)
-      {
-        let index_to_be_removed = [];
-        for(let i=0; i<room_history[room_history.length-1].persons.length; i++)
-        {
-          for(let j=0; j<preferencedData.person_detected.length; j++)
-          {
-            if(room_history[room_history.length-1].persons[i] == preferencedData.person_detected[j])
-            {
-              index_to_be_removed.push(i);
-            }
-          }
-        }
 
-        let persons_remaining = [];
-        let activity_remaining = [];
+  console.log(energyDecision);
 
-        for(let i=0; i<room_history[room_history.length-1].persons.length; i++)
-        {
-          for(let j=0; j<index_to_be_removed.length; j++)
-          {
-            if(i != index_to_be_removed[j])
-            {
-              persons_remaining.push(room_history[room_history.length-1].persons[i]);
-              activity_remaining.push(room_history[room_history.length-1].activity[i]);
-            }
-          }
-        }
-        
-        output_array = form_json_structure(persons_remaining, activity_remaining, room_history[room_history.length-1].settings, room_history[room_history.length-1].room, output_array, true);
-      }
-      else
-      {
-        output_array = form_json_structure([], [], [], rooms[i], output_array);
-      }
-    }
-  }
-  
-  let output = JSON.stringify(output_array);
-  console.log(output);
+  updateHouseState(preferencedData);
 
-  let history = {
-    persons : preferencedData.person_detected,
-    activity: preferencedData.detected_activities,
-    room : preferencedData.room,
-    settings: [temperature_history, humidity_history, light_history, sound_history]
-  }
-  
-  room_history.push(history)
-  console.log(room_history)
-  
+  const decision = addActivitiesAndFormatUsersToHouseState();
+  console.log(decision);
+
+  // @Rafi you send data here on this API
+  // inside the decision object
   try {
     responseOrch = await axios
       .post("http://localhost:8096/apply-decisions-to-devices", {
-        output,
+        decision,
       }) // DeviceOrchestrator
       .then((response) => {
         return response.data;
@@ -224,9 +152,135 @@ app.post("/make-decision", async (req, res) => {
     console.error("Error making API request:", error);
   }
 
-  // console.log(responseOrch);
+  console.log(responseOrch);
 
-  res.status(200).send({ decided: output });
+  res.status(200).send({ decided: decision });
 });
+
+function addActivitiesAndFormatUsersToHouseState(preferencedData) {
+  let decision = JSON.parse(JSON.stringify(HOUSE_STATE)); // deep copy
+
+  for (let room of decision) {
+    for (let i = 0; i < room.users.length; i++) {
+      user = room.users[i];
+      room.users[i] = {
+        username: user.name,
+        activity: user.activity,
+        color: "bg-red-500",
+        status: "good",
+      };
+    }
+  }
+
+  return decision;
+}
+
+function updateHouseState(update) {
+  // {
+  //   person_detected: [Aleksa, Lorenzo],
+  //   detected_activities: [sleeping, sleeping],
+  //   responsePreferences:
+  //  [
+  //   {
+  //     preferences: {
+  //       temperature: 18,
+  //       humidity: 55,
+  //       light_intensity: 0,
+  //       sound_volume: 20
+  //     },
+  //     recognizedPerson: 'Aleksa'
+  //      recognizedActivity: 'sleeping'
+  //   },
+  //   {
+  //     preferences: {
+  //       temperature: 20,
+  //       humidity: 60,
+  //       light_intensity: 0,
+  //       sound_volume: 15
+  //     },
+  //     recognizedPerson: 'Lorenzo'
+  //    recognizedActivity: 'sleeping'
+  //   }
+  // ],
+  //   room: recognizedData.room,
+  // }
+  const averagedPreferencesForRoom = decideOnPreferences(
+    update.responsePreferences,
+    update.room
+  );
+
+  console.log("averagedPreferencesForRoom");
+  console.log(averagedPreferencesForRoom);
+
+  // add people and set stats
+  for (let room of HOUSE_STATE) {
+    // remove detected persons from rooms
+    for (let person of update.person_detected) {
+      room.users = room.users.filter((user) => user.name !== person);
+    }
+    if (room.location === update.room) {
+      // update room stats for updated room
+      room.temperature = averagedPreferencesForRoom.temperature;
+      room.humidity = averagedPreferencesForRoom.humidity;
+      room.lightIntensity = averagedPreferencesForRoom.light_intensity;
+      room.soundVolume = averagedPreferencesForRoom.sound_volume;
+
+      for (let i = 0; i < update.person_detected.length; i++) {
+        // add detected persons and their activities
+        let name = update.person_detected[i];
+        let activity = update.detected_activities[i];
+
+        if (name !== "Unknown") {
+          room.users.push({ name, activity });
+        }
+      }
+
+      room.users = room.users.filter((user) => user.name !== "Unknown");
+    }
+  }
+}
+
+function decideOnPreferences(preferencesByPerson, roomBeingUpdated) {
+  // average preferences
+  let temperature = 0;
+  let humidity = 0;
+  let light_intensity = 0;
+  let sound_volume = 0;
+  let numOfConsideredPeople = 0;
+
+  preferencesByPerson.forEach((person) => {
+    if (person.recognizedPerson !== "Unknown") {
+      temperature += person.preferences.temperature;
+      humidity += person.preferences.humidity;
+      light_intensity += person.preferences.light_intensity;
+      sound_volume += person.preferences.sound_volume;
+      numOfConsideredPeople += 1;
+    }
+  });
+
+  if (numOfConsideredPeople !== 0) {
+    temperature = Math.round(temperature / numOfConsideredPeople);
+    humidity = Math.round(humidity / numOfConsideredPeople);
+    light_intensity = Math.round(light_intensity / numOfConsideredPeople);
+    sound_volume = Math.round(sound_volume / numOfConsideredPeople);
+  } else {
+    // in case of Unknown should be returned from 0s to the already existing stats
+    for (let room of HOUSE_STATE) {
+      if (room.location === roomBeingUpdated) {
+        temperature = room.temperature;
+        humidity = room.humidity;
+        lightIntensity = room.lightIntensity;
+        soundVolume = room.soundVolume;
+      }
+    }
+  }
+
+  return {
+    temperature,
+    humidity,
+    light_intensity,
+    sound_volume,
+  };
+}
 
 exports.appfunc = app;

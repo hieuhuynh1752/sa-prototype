@@ -11,8 +11,12 @@ app.post("/apply-decisions-to-devices", (req, res) => {
   const messageString = JSON.stringify(decisions);
   client.publish(topic, messageString);
 
+  console.log(messageString);
+  console.log("sent to:");
+  console.log(topic);
+
   //TODO @Lorenzo send info about this through socket (like everything else)
-  
+
   res.status(200).send(topic);
 });
 

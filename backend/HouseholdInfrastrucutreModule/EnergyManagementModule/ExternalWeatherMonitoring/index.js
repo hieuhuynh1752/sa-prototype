@@ -31,6 +31,8 @@ app.get("/weather-monitoring", (req, res) => {
     date: todayDateStr,
   };
 
+  console.log(weather_data);
+
   res.status(200).send(weather_data);
 });
 

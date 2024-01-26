@@ -18,6 +18,30 @@ app.post("/get-preferences", (req, res) => {
   console.log(preferences);
   console.log("=============");
 
+  // looking like this:
+  // [
+  //   {
+  //     preferences: {
+  //       temperature: 18,
+  //       humidity: 55,
+  //       light_intensity: 0,
+  //       sound_volume: 20
+  //     },
+  //     recognizedPerson: 'Aleksa'
+  //      recognizedActivity: 'sleeping'
+  //   },
+  //   {
+  //     preferences: {
+  //       temperature: 20,
+  //       humidity: 60,
+  //       light_intensity: 0,
+  //       sound_volume: 15
+  //     },
+  //     recognizedPerson: 'Lorenzo'
+  //    recognizedActivity: 'sleeping'
+  //   }
+  // ]
+
   res.status(200).send(preferences);
 });
 
