@@ -244,7 +244,7 @@ function updateHouseState(update) {
         }
       }
 
-      // room.users = room.users.filter((user) => user.name !== "Unknown");
+      room.users = room.users.filter((user) => user.name !== "Unknown");
     }
   }
 
