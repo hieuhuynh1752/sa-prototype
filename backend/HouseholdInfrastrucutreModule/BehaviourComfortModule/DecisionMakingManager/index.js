@@ -18,6 +18,8 @@ const axios = require("axios");
 //   },
 // ],
 
+let EMERGENCIES = [];
+
 let HOUSE_STATE = [
   {
     users: [],
@@ -235,7 +237,26 @@ function updateHouseState(update) {
         }
       }
 
-      room.users = room.users.filter((user) => user.name !== "Unknown");
+      // room.users = room.users.filter((user) => user.name !== "Unknown");
+    }
+  }
+
+  // adding emergencies
+  // remove Unknown persons from rooms
+  for (let room of HOUSE_STATE) {
+    room.users = room.users.filter((user) => user.name !== "Unknown");
+  }
+
+  // add Unknown people from emergencies
+  for (let emergency of EMERGENCIES) {
+    for (let room of HOUSE_STATE) {
+      if (room.location === emergency.room) {
+        for (let user of emergency.users) {
+          let name = user.username;
+          let activity = user.activity;
+          room.users.push({ name, activity });
+        }
+      }
     }
   }
 }
@@ -281,6 +302,60 @@ function decideOnPreferences(preferencesByPerson, roomBeingUpdated) {
     light_intensity,
     sound_volume,
   };
+}
+
+app.post("/make-emergency-decision", async (req, res) => {
+  const emergencyData = req.body.emergencyData;
+  EMERGENCIES.push(emergencyData);
+
+  console.log("EMERGENCY");
+  console.log(emergencyData);
+
+  updateEmergencyHouseState(emergencyData);
+  let roomsDecisions = addActivitiesAndFormatUsersToHouseState();
+
+  // for (room of roomsDecisions) {
+  //   if (room.location === emergencyData.room) {
+  //     room.users.concat(emergencyData.users);
+  //   }
+  // }
+
+  console.log("EMERGENCY UPDATE");
+  console.log(HOUSE_STATE);
+
+  try {
+    responseOrch = await axios
+      .post("http://localhost:8096/apply-decisions-to-devices", {
+        roomsDecisions,
+      }) // DeviceOrchestrator
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.error("Error making API request:", error);
+      });
+  } catch (error) {
+    console.error("Error making API request:", error);
+  }
+
+  res.status(200).send({ decided: roomsDecisions });
+});
+
+function updateEmergencyHouseState(emergencyData) {
+  // add people and set stats
+  for (let room of HOUSE_STATE) {
+    // remove detected persons from rooms
+    for (let user of emergencyData.users) {
+      room.users = room.users.filter((user) => user.name !== user.username);
+    }
+    if (room.location === emergencyData.room) {
+      for (let user of emergencyData.users) {
+        let name = user.username;
+        let activity = user.activity;
+        room.users.push({ name, activity });
+      }
+    }
+  }
 }
 
 exports.appfunc = app;

@@ -67,9 +67,24 @@ app.post("/raw-sensoring-device-data", async (req, res) => {
   //
   //
 
-  //TODO send first to the EmergencyModule
-
-  // doesn't have to be 'await'
+  // send to emergency for analysis
+  try {
+    responseEmergency = await axios
+      .post("http://localhost:8120/analyse-for-emergency", {
+        person_detected: receivedData.person_detected,
+        detected_activities: receivedData.detected_activities,
+        room: receivedData.room,
+      }) // EmergencyManager
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.error("Error making API request:", error);
+      });
+  } catch (error) {
+    console.error("Error making API request:", error);
+  }
+  console.log(responseEmergency);
 
   try {
     const responsePeople = await axios
