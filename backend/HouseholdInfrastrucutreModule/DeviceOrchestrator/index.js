@@ -17,7 +17,10 @@ app.post("/apply-decisions-to-devices", async (req, res) => {
   console.log("sent to:");
   console.log(topic);
 
-  sendThroughWS({ decision: decisions.roomsDecisions });
+  console.log("==========");
+  console.log(decisions);
+  console.log("==========");
+  sendThroughWS(decisions);
   sendLogsThroughWS("[DeviceOrchestrator] Sending new instructions...");
 
   res.status(200).send(topic);

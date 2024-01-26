@@ -176,7 +176,7 @@ function addActivitiesAndFormatUsersToHouseState(preferencedData) {
         username: user.name,
         activity: user.activity,
         color: getColor(user.name),
-        status: getStatus(username),
+        status: getStatus(user.name),
       };
     }
   }

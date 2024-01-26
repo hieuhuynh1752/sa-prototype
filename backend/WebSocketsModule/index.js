@@ -31,6 +31,8 @@ server.listen(PORT, () => {
 app.post("/send-message", (req, res) => {
   const message = req.body;
   broadcastMessage(JSON.stringify(message));
+
+  return res.json("sent_message");
 });
 
 exports.appfunc = app;
