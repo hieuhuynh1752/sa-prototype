@@ -10,8 +10,6 @@ wss.on("connection", async function connection(ws) {
   ws.on("message", function message(data) {
     console.log("received: %s", data);
   });
-
-  ws.send("test");
 });
 
 function broadcastMessage(message) {
@@ -32,7 +30,7 @@ server.listen(PORT, () => {
 
 app.post("/send-message", (req, res) => {
   const message = req.body;
-  broadcastMessage(message);
+  broadcastMessage(JSON.stringify(message));
 });
 
 exports.appfunc = app;

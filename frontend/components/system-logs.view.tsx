@@ -1,10 +1,12 @@
 "use client";
 
 import React from "react";
+import { PreferencesContext } from "@/components/preferencesContext";
 
 const SystemLogs: React.FC = () => {
   const wsRef = React.useRef<WebSocket | null>(null);
   const [systemLogs, setSystemLogs] = React.useState<string[] | undefined>();
+  const { setSettings } = React.useContext(PreferencesContext);
 
   React.useEffect(() => {
     if (!wsRef.current || wsRef.current.readyState === WebSocket.CLOSED) {
@@ -13,14 +15,29 @@ const SystemLogs: React.FC = () => {
         console.log("Connected to WebSocket server");
       };
       ws.onmessage = (event) => {
-        // Handle incoming messages
-        console.log("Received:", event.data);
-
-        setSystemLogs((prevState) => {
-          let arr = prevState ? [...prevState] : [];
-          arr.push(event.data);
-          return arr;
-        });
+        console.log(event.data);
+        if (event && event.data) {
+          try {
+            const newSetting = JSON.parse(event.data);
+            if (newSetting.decision) {
+              setSettings?.(JSON.parse(event.data).decision);
+            } else if (newSetting.message) {
+              setSystemLogs((prevState) => {
+                let arr = prevState ? [...prevState] : [];
+                arr.push(newSetting.message);
+                return arr;
+              });
+            }
+          } catch (e) {
+            setSystemLogs((prevState) => {
+              let arr = prevState ? [...prevState] : [];
+              arr.push(event.data);
+              return arr;
+            });
+          }
+        } else {
+          console.log(event);
+        }
       };
       ws.onclose = () => {
         console.log("Disconnected from WebSocket server");

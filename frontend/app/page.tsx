@@ -7,10 +7,11 @@ import SystemLogs from "@/components/system-logs.view";
 
 export default function Home() {
   const [selectedRoom, setSelectedRoom] = React.useState("living");
+  const [settings, setSettings] = React.useState(SETTINGS);
 
   return (
     <PreferencesContext.Provider
-      value={{ settings: SETTINGS, setSelectedRoom, selectedRoom }}
+      value={{ settings, setSettings, setSelectedRoom, selectedRoom }}
     >
       <div className="w-full flex gap-8">
         <FloorMap />

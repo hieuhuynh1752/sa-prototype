@@ -19,6 +19,7 @@ export type PreferencesState = {
 type PreferencesContextValue = {
   settings: PreferencesState[];
   selectedRoom: string;
+  setSettings?: Dispatch<PreferencesState[]>;
   setSelectedRoom?: Dispatch<SetStateAction<string>>;
 };
 
@@ -54,7 +55,7 @@ export const SETTINGS: PreferencesState[] = [
         status: "good",
       },
     ],
-    location: "1",
+    location: "room1",
     temperature: 22,
     humidity: 90,
     lightIntensity: 50,
@@ -69,7 +70,7 @@ export const SETTINGS: PreferencesState[] = [
         status: "good",
       },
     ],
-    location: "2",
+    location: "room2",
     temperature: 24,
     humidity: 70,
     lightIntensity: 32,
@@ -98,9 +99,3 @@ export const PreferencesContext: React.Context<PreferencesContextValue> =
     settings: SETTINGS,
     selectedRoom: "living",
   });
-
-export const selectedRoomPreferences = (selectedRoom: string) => {
-  if (SETTINGS.find((setting) => setting.location === selectedRoom)) {
-    return SETTINGS.find((setting) => setting.location === selectedRoom);
-  }
-};
