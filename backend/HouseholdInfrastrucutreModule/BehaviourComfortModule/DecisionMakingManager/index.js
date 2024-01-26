@@ -175,13 +175,37 @@ function addActivitiesAndFormatUsersToHouseState(preferencedData) {
       room.users[i] = {
         username: user.name,
         activity: user.activity,
-        color: "bg-red-500",
-        status: "good",
+        color: getColor(user.name),
+        status: getStatus(username),
       };
     }
   }
 
   return decision;
+}
+
+function getColor(username) {
+  switch (username) {
+    case "Aleksa":
+      return "bg-teal-500";
+    case "Hieu":
+      return "bg-indigo-500";
+    case "Rafi":
+      return "bg-orange-500";
+    case "Lorenzo":
+      return "bg-red-500";
+    default:
+      return "bg-gray-500";
+  }
+}
+
+function getStatus(username) {
+  switch (username) {
+    case "Unknown":
+      return "warning";
+    default:
+      return "good";
+  }
 }
 
 function updateHouseState(update) {

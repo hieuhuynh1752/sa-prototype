@@ -66,7 +66,7 @@ function recognizeEmergency(detectedPeople, detectedActivities, room) {
         username,
         activity,
         status,
-        color: "bg-red-500",
+        color: "bg-grey-500",
       };
 
       emergencyData.users.push(user);
