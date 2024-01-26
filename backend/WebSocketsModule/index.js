@@ -15,7 +15,8 @@ wss.on("connection", async function connection(ws) {
 });
 
 function broadcastMessage(message) {
-  console.log("trigered");
+  console.log(message);
+
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(message);
@@ -30,7 +31,6 @@ server.listen(PORT, () => {
 });
 
 app.post("/send-message", (req, res) => {
-  console.log("sendinnng");
   const message = req.body;
   broadcastMessage(message);
 });

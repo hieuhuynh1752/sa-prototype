@@ -18,7 +18,7 @@ app.post("/apply-decisions-to-devices", async (req, res) => {
   console.log(topic);
 
   sendThroughWS(decisions);
-  sendLogsThroughWS("new instructions were sent");
+  sendLogsThroughWS("[DeviceOrchestrator] Sending new instructions...");
 
   res.status(200).send(topic);
 });

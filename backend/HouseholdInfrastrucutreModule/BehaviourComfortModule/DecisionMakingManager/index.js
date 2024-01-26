@@ -2,6 +2,7 @@ const express = require("express");
 // const mysql = require('mysql');
 const app = express();
 const axios = require("axios");
+const { sendLogsThroughWS } = require("../../../utils");
 
 // users: [
 //   {
@@ -100,6 +101,9 @@ app.post("/make-decision", async (req, res) => {
   // @Rafi with this you are working I belive:
   console.log(preferencedData);
   updateHouseState(preferencedData);
+  sendLogsThroughWS(
+    "[DecisionMakingManager] New updates arrived. Requesting data from about available energy."
+  );
 
   try {
     const response = await axios.get(
@@ -139,6 +143,9 @@ app.post("/make-decision", async (req, res) => {
 
   // @Rafi you send data here on this API
   // inside the decision object
+
+  sendLogsThroughWS("[DecisionMakingManager] Making decisions...");
+
   try {
     responseOrch = await axios
       .post("http://localhost:8096/apply-decisions-to-devices", {

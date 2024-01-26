@@ -2,6 +2,7 @@ const express = require("express");
 // const mysql = require('mysql');
 const app = express();
 const axios = require("axios");
+const { sendLogsThroughWS } = require("../../../utils");
 
 app.get("/", (req, res) => {
   let message = req.query.message || "sustainability-manager";
@@ -24,6 +25,10 @@ app.get("/sustainability-manager/decisions", async (req, res) => {
     electricGridInfo = eleGridresponse.data;
 
     // making decision logic
+
+    sendLogsThroughWS(
+      "[SustainabilityManager] Continue working on the normal grid. No sustainable sources available at the moment."
+    );
 
     decision = {
       decision:

@@ -31,7 +31,7 @@ async function sendThroughWS(body) {
 }
 
 function sendLogsThroughWS(body) {
-  sendThroughWS(getCurrentFormattedTime() + " " + body);
+  sendThroughWS({ message: getCurrentFormattedTime() + " " + body });
 }
 
 module.exports = {

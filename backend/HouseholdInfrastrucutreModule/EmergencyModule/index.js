@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const axios = require("axios");
+const { sendLogsThroughWS } = require("../../utils");
 
 app.post("/analyse-for-emergency", async (req, res) => {
   console.log("analysing data for emergency...");
@@ -17,6 +18,7 @@ app.post("/analyse-for-emergency", async (req, res) => {
   if (emergencyData.users.length > 0) {
     console.log("something is happening!");
     activateEmergencyProtocol(emergencyData);
+    sendLogsThroughWS("[EmergencyModule] WARNING - Activating the protocol.");
 
     try {
       responseOrch = await axios

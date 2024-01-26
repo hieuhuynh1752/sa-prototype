@@ -1,6 +1,7 @@
 const express = require("express");
 // const mysql = require('mysql');
 const app = express();
+const { sendLogsThroughWS } = require("../../../utils");
 
 app.get("/", (req, res) => {
   let message = req.query.message || "weather-monitoring";
@@ -32,6 +33,10 @@ app.get("/weather-monitoring", (req, res) => {
   };
 
   console.log(weather_data);
+
+  sendLogsThroughWS(
+    "[ExternalWeatherMonitoring] Today Partly Cloud. Temperature from 20 to 25 degrees."
+  );
 
   res.status(200).send(weather_data);
 });
