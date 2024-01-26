@@ -1,13 +1,15 @@
-const express = require("express");
-const mqtt = require("mqtt");
+import { sendLogsThroughWS, sendThroughWS } from "../../utils";
+
+import express from "express";
+import { connect } from "mqtt";
 const app = express();
-const axios = require("axios");
+import { post } from "axios";
 
 const broker = "mqtt://test.mosquitto.org";
 const topic = "/bet_system_device_orch";
-const client = mqtt.connect(broker);
+const client = connect(broker);
 
-app.post("/apply-decisions-to-devices", (req, res) => {
+app.post("/apply-decisions-to-devices", async (req, res) => {
   const decisions = req.body;
   const messageString = JSON.stringify(decisions);
   client.publish(topic, messageString);
@@ -16,22 +18,40 @@ app.post("/apply-decisions-to-devices", (req, res) => {
   console.log("sent to:");
   console.log(topic);
 
-  //TODO @Lorenzo send info about this through socket (like everything else)
+  // sending map data to WS
+  sendThroughWS(decisions);
+  // try {
+  //   responseDecision = await post("http://localhost:8121/send-message", {
+  //     decisions,
+  //   }) // sending to WebSocket
+  //     .then((response) => {
+  //       return response.data;
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error making API request:", error);
+  //     });
+  // } catch (error) {
+  //   console.error("Error making API request:", error);
+  // }
 
-  try {
-    responseDecision = axios
-      .post("http://localhost:8121/send-message", { decisions }) // sending to WebSocket
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.error("Error making API request:", error);
-      });
-  } catch (error) {
-    console.error("Error making API request:", error);
-  }
+  // sending logs
+  sendLogsThroughWS("new instructions were sent");
+  // try {
+  //   responseDecision = await post(
+  //     "http://localhost:8121/send-message",
+  //     "new instructions were sent"
+  //   ) // sending to WebSocket
+  //     .then((response) => {
+  //       return response.data;
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error making API request:", error);
+  //     });
+  // } catch (error) {
+  //   console.error("Error making API request:", error);
+  // }
 
   res.status(200).send(topic);
 });
 
-exports.appfunc = app;
+export const appfunc = app;
