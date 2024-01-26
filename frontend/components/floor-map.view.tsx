@@ -150,7 +150,7 @@ export default function FloorMap() {
               {" "}
               Room 1
             </p>
-            <User users={getCurrentRoomUsers("1")} />
+            <User users={getCurrentRoomUsers("room1")} />
           </div>
           <div
             className={`flex relative cursor-pointer w-full h-1/2 border-black transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "2" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
@@ -162,7 +162,7 @@ export default function FloorMap() {
               {" "}
               Room 2
             </p>
-            <User users={getCurrentRoomUsers("2")} />
+            <User users={getCurrentRoomUsers("room2")} />
           </div>
         </div>
         <div

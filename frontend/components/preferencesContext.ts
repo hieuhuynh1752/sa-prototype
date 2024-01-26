@@ -12,7 +12,7 @@ export type PreferencesState = {
   location: string;
   temperature: number;
   humidity: number;
-  lightIntensity: string;
+  lightIntensity: number;
   soundVolume: number;
 };
 
@@ -42,7 +42,7 @@ export const SETTINGS: PreferencesState[] = [
     location: "living",
     temperature: 19,
     humidity: 85,
-    lightIntensity: "intense",
+    lightIntensity: 85,
     soundVolume: 76,
   },
   {
@@ -57,7 +57,7 @@ export const SETTINGS: PreferencesState[] = [
     location: "1",
     temperature: 22,
     humidity: 90,
-    lightIntensity: "normal",
+    lightIntensity: 50,
     soundVolume: 0,
   },
   {
@@ -72,14 +72,14 @@ export const SETTINGS: PreferencesState[] = [
     location: "2",
     temperature: 24,
     humidity: 70,
-    lightIntensity: "dimming",
+    lightIntensity: 32,
     soundVolume: 0,
   },
   {
     users: undefined,
     location: "kitchen",
     humidity: 60,
-    lightIntensity: "off",
+    lightIntensity: 0,
     soundVolume: 0,
     temperature: 27,
   },
@@ -87,7 +87,7 @@ export const SETTINGS: PreferencesState[] = [
     users: undefined,
     location: "entrance",
     humidity: 70,
-    lightIntensity: "off",
+    lightIntensity: 0,
     soundVolume: 10,
     temperature: 13,
   },
