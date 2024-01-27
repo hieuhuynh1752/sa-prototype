@@ -5,8 +5,9 @@ import { PreferencesContext } from "@/components/preferencesContext";
 
 const SystemLogs: React.FC = () => {
   const wsRef = React.useRef<WebSocket | null>(null);
-  const [systemLogs, setSystemLogs] = React.useState<string[] | undefined>();
-  const { setSettings } = React.useContext(PreferencesContext);
+
+  const { setSettings, setSystemLogs, systemLogs } =
+    React.useContext(PreferencesContext);
 
   React.useEffect(() => {
     if (!wsRef.current || wsRef.current.readyState === WebSocket.CLOSED) {
@@ -22,14 +23,14 @@ const SystemLogs: React.FC = () => {
             if (newSetting.decision) {
               setSettings?.(JSON.parse(event.data).decision);
             } else if (newSetting.message) {
-              setSystemLogs((prevState) => {
+              setSystemLogs?.((prevState) => {
                 let arr = prevState ? [...prevState] : [];
                 arr.push(newSetting.message);
                 return arr;
               });
             }
           } catch (e) {
-            setSystemLogs((prevState) => {
+            setSystemLogs?.((prevState) => {
               let arr = prevState ? [...prevState] : [];
               arr.push(event.data);
               return arr;

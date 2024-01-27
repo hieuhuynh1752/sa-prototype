@@ -21,25 +21,14 @@ type PreferencesContextValue = {
   selectedRoom: string;
   setSettings?: Dispatch<PreferencesState[]>;
   setSelectedRoom?: Dispatch<SetStateAction<string>>;
+  systemLogs?: string[];
+  setSystemLogs?: Dispatch<SetStateAction<string[] | undefined>>;
 };
 
 //JSON should be the same here
 export const SETTINGS: PreferencesState[] = [
   {
-    users: [
-      {
-        username: "Lori",
-        activity: "reading",
-        color: "bg-red-500",
-        status: "warning",
-      },
-      {
-        username: "Hieu",
-        activity: "reading",
-        color: "bg-indigo-500",
-        status: "bad",
-      },
-    ],
+    users: [],
     location: "living",
     temperature: 19,
     humidity: 85,
@@ -47,14 +36,7 @@ export const SETTINGS: PreferencesState[] = [
     soundVolume: 76,
   },
   {
-    users: [
-      {
-        username: "Aleksa",
-        activity: "studying",
-        color: "bg-teal-500",
-        status: "good",
-      },
-    ],
+    users: [],
     location: "room1",
     temperature: 22,
     humidity: 90,
@@ -62,14 +44,7 @@ export const SETTINGS: PreferencesState[] = [
     soundVolume: 0,
   },
   {
-    users: [
-      {
-        username: "Rafi",
-        activity: "sleeping",
-        color: "bg-orange-500",
-        status: "good",
-      },
-    ],
+    users: [],
     location: "room2",
     temperature: 24,
     humidity: 70,

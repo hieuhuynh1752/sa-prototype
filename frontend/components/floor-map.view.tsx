@@ -1,5 +1,5 @@
 "use client";
-import { PreferencesContext, UserProfile } from "./preferencesContext";
+import { PreferencesContext } from "./preferencesContext";
 import React from "react";
 import User from "./user.view";
 import { FaTemperatureLow } from "react-icons/fa";
@@ -13,13 +13,6 @@ export default function FloorMap() {
   const handleRoomClick = React.useCallback((roomName: string): void => {
     setSelectedRoom?.(roomName);
   }, []);
-
-  const getCurrentRoomUsers = React.useCallback(
-    (roomName: string): UserProfile[] | undefined => {
-      return settings.find((setting) => setting.location === roomName)?.users;
-    },
-    [settings],
-  );
 
   const selectedRoomPreferences = React.useCallback(
     (selectedRoom: string) => {
@@ -72,7 +65,11 @@ export default function FloorMap() {
           <h2 className={`mb-3 text-xl font-semibold`}>Light intensity</h2>
           <div className="flex gap-2 justify-between">
             <p className={`m-0 max-w-[30ch] text-xl opacity-50`}>
-              {selectedRoomPreferences(selectedRoom)?.lightIntensity}
+              {Number(selectedRoomPreferences(selectedRoom)?.lightIntensity)
+                ? Number(
+                    selectedRoomPreferences(selectedRoom)?.lightIntensity,
+                  ) * 5
+                : 0}
             </p>
             <MdOutlineLightMode size={"1.5em"} />
           </div>
@@ -95,67 +92,67 @@ export default function FloorMap() {
       <div className="bg-white border-4 border-black flex m-auto  h-[65vh]">
         <div className="flex flex-col w-1/3 border-r-4 border-black">
           <div
-            className={`flex relative cursor-pointer w-full h-1/2 border-b-4 border-black transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "1" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
+            className={`flex relative items-center cursor-pointer w-full h-1/2 border-b-4 border-black transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "1" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
             onClick={() => {
               handleRoomClick("room1");
             }}
           >
-            <p className="p-2.5 border-b-2 border-r-2 border-black h-fit">
+            <p className="p-2.5 border-b-2 border-r-2 border-black h-fit self-baseline">
               {" "}
               Room 1
             </p>
-            <User users={getCurrentRoomUsers("room1")} />
+            <User roomName={"room1"} />
           </div>
           <div
-            className={`flex relative cursor-pointer w-full h-1/2 border-black transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "2" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
+            className={`flex relative items-center cursor-pointer w-full h-1/2 border-black transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "2" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
             onClick={() => {
               handleRoomClick("room2");
             }}
           >
-            <p className="p-2.5 border-b-2 border-r-2 border-black h-fit">
+            <p className="p-2.5 border-b-2 border-r-2 border-black h-fit self-baseline">
               {" "}
               Room 2
             </p>
-            <User users={getCurrentRoomUsers("room2")} />
+            <User roomName={"room2"} />
           </div>
         </div>
         <div
-          className={`flex relative cursor-pointer w-1/2 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "living" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
+          className={`flex relative items-center cursor-pointer w-1/2 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "living" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
           onClick={() => {
             handleRoomClick("living");
           }}
         >
-          <p className="p-2.5 border-b-2 border-r-2 border-black h-fit">
+          <p className="p-2.5 border-b-2 border-r-2 border-black h-fit self-baseline">
             {" "}
             Living Room
           </p>
-          <User users={getCurrentRoomUsers("living")} />
+          <User roomName={"living"} />
         </div>
         <div className="flex flex-col w-1/3">
           <div
-            className={`flex relative cursor-pointer w-full h-1/3 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "entrance" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
+            className={`flex relative items-center cursor-pointer w-full h-1/2 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "entrance" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
             onClick={() => {
               handleRoomClick("entrance");
             }}
           >
-            <p className="p-2.5 border-b-2 border-r-2 border-l-2 border-black h-fit">
+            <p className="p-2.5 border-b-2 border-r-2 border-l-2 border-black h-fit self-baseline">
               {" "}
               Entrance
             </p>
-            <User users={getCurrentRoomUsers("entrance")} />
+            <User roomName={"entrance"} />
           </div>
           <div
-            className={`flex cursor-pointer w-full h-2/3 border-t-4 border-l-4 border-dashed border-black transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "kitchen" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
+            className={`flex cursor-pointer items-center w-full h-1/2 border-t-4 border-l-4 border-dashed border-black transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${selectedRoom === "kitchen" ? " bg-lime-200 hover:bg-lime-50" : " bg-white"}`}
             onClick={() => {
               handleRoomClick("kitchen");
             }}
           >
-            <p className="p-2.5 border-b-2 border-r-2 border-black h-fit">
+            <p className="p-2.5 border-b-2 border-r-2 border-black h-fit self-baseline">
               {" "}
               Kitchen
             </p>
           </div>
-          <User users={getCurrentRoomUsers("kitchen")} />
+          <User roomName={"kitchen"} />
         </div>
       </div>
     </div>
